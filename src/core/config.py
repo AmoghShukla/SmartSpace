@@ -1,3 +1,4 @@
+from pydantic import EmailStr
 from pydantic_settings import BaseSettings
 from sqlalchemy import String
 
@@ -7,6 +8,11 @@ class Settings(BaseSettings):
     DB_NAME : str
     DB_PASSWORD : str
     DB_HOST : str
+
+    ADMIN_NAME : str
+    ADMIN_PASSWORD : str
+    ADMIN_CONTACT_NO : str
+    ADMIN_EMAIL_ID : EmailStr
 
     @property
     def DATABASE_URL(self):

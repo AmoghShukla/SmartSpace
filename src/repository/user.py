@@ -11,6 +11,7 @@ logger = get_logger(__name__)
 
 class UserRepository:
 
+    @staticmethod
     def CreateUser(payload, db):
         try:
             user = UserRepository.GetUserByEmail(payload.user_email, db)
@@ -41,11 +42,14 @@ class UserRepository:
             logger.error("Error while creating User!!")
             raise CustomException.RepositoryError("Error Creating User : Repo") from e
 
+    @staticmethod
     def GetUserByEmail(user_email, db):
         return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
     
+    @staticmethod
     def GetUserByRole(user_role, db):
         return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
     
+    @staticmethod
     def GetAllUser(db):
         return db.execute(select(User_Class)).scalars().all()

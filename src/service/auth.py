@@ -14,7 +14,7 @@ class AuthService:
         if user:
             raise CustomException.ServiceError("User Already Exists!!")
         
-        role = UserRole.USER if payload.user_role is None else payload.user_role
+        role = UserRole.USER if not payload.user_role else payload.user_role
         
         password = AuthSecurity.hash_password(payload.user_password)
 

@@ -14,6 +14,5 @@ class User_Class(base):
     user_email = Column(EmailStr, nullable=False)
     user_password = Column(String, nullable=False)
     user_contact_no = Column(PhoneNumber, nullable=False, unique=True)
-    user_role = Column(String, default=UserRole.USER)
-    
+    user_role = Column(String, default=UserRole.GUEST)
 

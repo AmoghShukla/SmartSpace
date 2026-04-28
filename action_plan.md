@@ -2,8 +2,8 @@ Roles:
 
 1) Admin
 2) Workspace Manager
-3) User
-4) 
+3) Member
+4) Guest
 
 Resource Types:
 
@@ -11,3 +11,4 @@ Resource Types:
 2) Meeting Room
 3) Hall/Auditorium
 4) Projector
+

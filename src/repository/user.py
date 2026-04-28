@@ -44,3 +44,8 @@ class UserRepository:
     def GetUserByEmail(user_email, db):
         return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
     
+    def GetUserByRole(user_role, db):
+        return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
+    
+    def GetAllUser(db):
+        return db.execute(select(User_Class)).scalars().all()

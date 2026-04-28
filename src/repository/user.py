@@ -33,18 +33,20 @@ class UserRepository:
                     user_role = role
                 )
             logger.info(f"Creating User with payload : {payload}")
-            db.add(payload)
-            db.refresh()
+            db.add(new_user)
             db.commit()
+            db.refresh(new_user)
             logger.info(f"User Created with payload : {payload}")
             return payload
         except SQLAlchemyError as e:
+            db.rollback()
             logger.error("Error while creating User!!")
             raise CustomException.RepositoryError("Error Creating User : Repo") from e
 
     @staticmethod
     def GetUserByEmail(user_email, db):
-        return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
+        record = db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
+        return record
     
     @staticmethod
     def GetUserByRole(user_role, db):

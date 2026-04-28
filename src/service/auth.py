@@ -14,7 +14,10 @@ class AuthService:
         if user:
             raise CustomException.ServiceError("User Already Exists!!")
         
-        role = UserRole.USER if not payload.user_role else payload.user_role
+        if not hasattr(payload, "user_role"):
+            role = UserRole.USER.value
+        else:
+            role = (payload.user_role.value if isinstance(payload.user_role, UserRole) else payload.user_role)
         
         password = AuthSecurity.hash_password(payload.user_password)
 

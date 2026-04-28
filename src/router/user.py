@@ -17,22 +17,24 @@ def CreateUser(payload : UserCreate, db : Session = Depends(get_db)):
         UserService.CreateUser(payload, db)
     except CustomException.ServiceError as e:
         raise HTTPException("Error While Creating User!!!") from e
-    
+
+@router.get('/get_user_by_email/{user_email}', response_model=UserResponse)   
 def GetUserByEmail(user_email : EmailStr, db: Session = Depends(get_db)):
     try:
-        UserRepository.GetUserByEmail(user_email, db)
+        return UserService.GetUserByEmail(user_email, db)
     except CustomException.ServiceError as e:
         raise HTTPException("Error While Fetching User!!!") from e
 
-
+@router.get('/get_user_by_role/{user_role}', response_model=UserResponse)  
 def GetUserByRole(user_role, db: Session = Depends(get_db)):
     try:
-        UserService.GetUserByRole(user_role, db)
+        return UserService.GetUserByRole(user_role.upper(), db)
     except CustomException.ServiceError as e:
         raise HTTPException("Error While Fetching User!!!") from e
-    
+
+@router.get('/', response_model=list[UserResponse])    
 def GetAllUsers(db: Session = Depends(get_db)):
     try:
-        UserService.GetAllUsers(db)
+        return UserService.GetAllUsers(db)
     except CustomException.ServiceError as e:
         raise HTTPException("Error While Fetching Users!!!") from e

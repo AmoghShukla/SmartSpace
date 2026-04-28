@@ -15,20 +15,20 @@ class UserService:
     @staticmethod
     def GetUserByEmail(user_email, db: Session):
         try:
-            UserRepository.GetUserByEmail(user_email, db)
+            return UserRepository.GetUserByEmail(user_email, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching User!!!") from e
 
     @staticmethod
     def GetUserByRole(user_role, db: Session):
         try:
-            UserRepository.GetUserByRole(user_role, db)
+            return UserRepository.GetUserByRole(user_role, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Users with the given role!!!") from e
 
     @staticmethod
     def GetAllUsers(db: Session):
         try:
-            UserRepository.GetAllUser(db)
+            return UserRepository.GetAllUser(db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Users") from e

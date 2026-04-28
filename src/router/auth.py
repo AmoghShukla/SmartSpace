@@ -10,7 +10,5 @@ router = APIRouter(prefix='/auth', tags=['Auth'])
 
 @router.post('/register', response_model=UserResponse)
 def register_user(payload : UserCreate, db : Session = Depends(get_db)):
-    try:
-        return AuthService.RegisterUser(payload, db)
-    except CustomException.ServiceError() as e:
-        raise HTTPException("Error While Creating User") from e
+    return AuthService.RegisterUser(payload, db)
+    

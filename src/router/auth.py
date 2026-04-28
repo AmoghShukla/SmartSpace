@@ -1,6 +1,10 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
+from src.schema.auth import LoginRequest, LoginResponse
 from src.database.Session import get_db
 from src.schema.user import UserResponse, UserCreate
 from src.service.auth import AuthService
@@ -12,7 +16,7 @@ router = APIRouter(prefix='/auth', tags=['Auth'])
 def register_user(payload : UserCreate, db : Session = Depends(get_db)):
     return AuthService.RegisterUser(payload, db)
     
-@router.post('/login', response_model=UserResponse)
-def login_user(payload : UserCreate, db : Session = Depends(get_db)):
+@router.post('/login', response_model=LoginResponse)
+def login_user(payload: OAuth2PasswordRequestForm =  Depends(), db : Session = Depends(get_db)):
     return AuthService.login_user(payload, db)
     

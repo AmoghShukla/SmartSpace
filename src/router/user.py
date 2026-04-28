@@ -3,6 +3,7 @@ from src.schema.user import UserResponse, UserCreate
 from src.service.user import UserService
 from src.database.Session import get_db
 from src.Exceptions.Custom_Exception import CustomException
+from src.dependencies.auth import required_role
 
 from sqlalchemy.orm import Session
 from pydantic import EmailStr
@@ -33,7 +34,7 @@ def GetUserByRole(user_role, db: Session = Depends(get_db)):
         raise HTTPException("Error While Fetching User!!!") from e
 
 @router.get('/', response_model=list[UserResponse])    
-def GetAllUsers(db: Session = Depends(get_db)):
+def GetAllUsers(db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         return UserService.GetAllUsers(db)
     except CustomException.ServiceError as e:

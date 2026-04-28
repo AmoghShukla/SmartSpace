@@ -35,12 +35,32 @@ class AuthService:
     
     @staticmethod
     def login_user(payload, db):
-        user = UserRepository.GetUserByEmail(payload.user_email, db)
+        user = UserRepository.GetUserByEmail(payload.username, db)
 
         if not user:
             raise HTTPException(status_code=404, detail="User does not exist, please signup")
         
-        if not AuthSecurity.verify_password(payload.user_password, user.user_password):
+        if not AuthSecurity.verify_password(payload.password, user.user_password):
             raise HTTPException(status_code=404, detail="Password Does Not Match!!!")
         
-        access_token = create
+        role = payload.user_role.value if hasattr(user.user_role, 'value') else str(user.user_role)
+
+        access_token = AuthSecurity.create_access_token({
+            'sub' : str(user.user_id),
+            'user_role' : role,
+            'token_type': 'access_token'
+        })
+
+        refresh_token = AuthSecurity.create_refresh_token({
+            'sub' : str(user.user_id),
+            'user_role' : role,
+            'token_type': 'refresh_token'
+
+        })
+
+        return {
+            'message' : ' Logged In Successfully!!!!',
+            'access_token' : access_token,
+            'refresh_token' : refresh_token,
+            'token_type' : 'Bearer Token'
+        }

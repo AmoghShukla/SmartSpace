@@ -12,3 +12,7 @@ class AuthSecurity:
     @staticmethod
     def verify_password(plain_password, hashed_password):
         return PasswordContext.verify(plain_password, hashed_password)
+    
+    @staticmethod
+    def create_access_token(data : dict):
+        

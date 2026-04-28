@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 from src.repository.user import UserRepository
 from src.Exceptions.Custom_Exception import CustomException
 from src.model.enum import UserRole
@@ -30,3 +32,15 @@ class AuthService:
         )
 
         return UserRepository.CreateUser(new_user, db)
+    
+    @staticmethod
+    def login_user(payload, db):
+        user = UserRepository.GetUserByEmail(payload.user_email, db)
+
+        if not user:
+            raise HTTPException(status_code=404, detail="User does not exist, please signup")
+        
+        if not AuthSecurity.verify_password(payload.user_password, user.user_password):
+            raise HTTPException(status_code=404, detail="Password Does Not Match!!!")
+        
+        access_token = create

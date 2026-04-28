@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from sqlalchemy import select
-from src.model import UserRole, User_Class
+from src.model import User_Class
+from src.model.enum import UserRole
 from src.database.Session import session
 from src.core.config import settings
 from src.utils.loggers import get_logger

@@ -1,18 +1,16 @@
-from pydantic import EmailStr
 from src.database.Base import base
-from uuid import uuid3
+from uuid import uuid4
 from sqlalchemy import Column, String, UUID
-from pydantic_extra_types.phone_numbers import PhoneNumber
-from model import UserRole
+from src.model.enum import UserRole
 
 
 class User_Class(base):
     __tablename__="User_Table"
 
-    user_id = Column(UUID(as_uuid=True), default=uuid3(), primary_key=True)
+    user_id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
     user_name = Column(String, nullable=False, index=True)
-    user_email = Column(EmailStr, nullable=False)
+    user_email = Column(String, nullable=False)
     user_password = Column(String, nullable=False)
-    user_contact_no = Column(PhoneNumber, nullable=False, unique=True)
+    user_contact_no = Column(String, nullable=False, unique=True)
     user_role = Column(String, default=UserRole.GUEST)
 

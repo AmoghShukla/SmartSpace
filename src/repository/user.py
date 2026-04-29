@@ -16,7 +16,7 @@ class UserRepository:
         try:
             user = UserRepository.GetUserByEmail(payload.user_email, db)
             if user:
-                logger.debug("User Already Exists!!")
+                logger.info("User Already Exists!!")
                 raise SQLAlchemyError("User Already Exists!!")
             
             if isinstance(payload, User_Class):
@@ -44,14 +44,27 @@ class UserRepository:
             raise CustomException.RepositoryError("Error Creating User : Repo") from e
 
     @staticmethod
+    def GetMyProfile(user_id, db):
+        try:
+            return db.execute(select(User_Class).where(User_Class.user_id==user_id)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("Error While Fetching user profile") from e
+    
+
+    @staticmethod
     def GetUserByEmail(user_email, db):
-        record = db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
-        return record
+        try:
+            return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
     
     @staticmethod
     def GetUserByRole(user_role, db):
-        return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
-    
+        try:
+            return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("Error While Fetching user using the Given Role") from e
+
     @staticmethod
     def GetAllUser(db):
         try:

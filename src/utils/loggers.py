@@ -9,7 +9,7 @@ def get_logger(name : str):
 
     if logger.hasHandlers():
         if not os.path.exists('src/logs'):
-            os.makedirs('src/logs')
+            os.mkdir('src/logs')
         
         formatter = logging.Formatter(' %(asctime)s | %(levelname)s | %(name)s | %(message)s ')
 

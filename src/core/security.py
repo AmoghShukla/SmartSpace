@@ -4,7 +4,7 @@ from pwdlib import PasswordHash
 
 from src.core.config import settings
 
-PasswordContext = PasswordHash.recommended()
+PasswordContext : PasswordHash = PasswordHash.recommended()
 
 
 class AuthSecurity:

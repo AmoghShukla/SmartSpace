@@ -3,8 +3,7 @@ Roles:
 1) Admin
 2) Workspace Manager
 3) Member
-4) Guest
-5) User
+4) User
 
 Resource Types:
 

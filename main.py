@@ -9,6 +9,7 @@ from src.core.config import settings
 from src.utils.loggers import get_logger
 from src.router.auth import router as AuthRouter
 from src.router.user import router as UserRouter
+from src.router.promotions import router as PromtionsRouter
 
 app = FastAPI(title="SmartSpace : Workspace Booking & Resource Management API", version="1.0")
 
@@ -16,6 +17,7 @@ logger = get_logger(__name__)
 
 app.include_router(AuthRouter)
 app.include_router(UserRouter)
+app.include_router(PromtionsRouter)
 
 
 @app.on_event("startup")

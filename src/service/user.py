@@ -13,6 +13,8 @@ class UserService:
             UserRepository.CreateUser(Payload, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError(f"Error Encountered while creating user wit payload {Payload}") from e
+        
+    
     
     @staticmethod
     def GetMyProfile(user_id, db: Session):

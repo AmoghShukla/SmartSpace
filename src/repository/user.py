@@ -46,28 +46,36 @@ class UserRepository:
     @staticmethod
     def GetMyProfile(user_id, db):
         try:
+            logger.info(f"Fetching User Profile : {user_id}")
             return db.execute(select(User_Class).where(User_Class.user_id==user_id)).scalars().first()
         except SQLAlchemyError as e:
+            logger.error(f"Error while Fetching User Profile : {user_id}")
             raise CustomException.RepositoryError("Error While Fetching user profile") from e
     
 
     @staticmethod
     def GetUserByEmail(user_email, db):
         try:
+            logger.info(f"Fetching User with email : {user_email}")
             return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
         except SQLAlchemyError as e:
+            logger.error(f"Error while Fetching User Email : {user_email}")
             raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
     
     @staticmethod
     def GetUserByRole(user_role, db):
         try:
+            logger.info(f"Fetching User By Role : {user_role}")
             return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
         except SQLAlchemyError as e:
+            logger.error(f"Error while Fetching User By Role : {user_role}")
             raise CustomException.RepositoryError("Error While Fetching user using the Given Role") from e
 
     @staticmethod
     def GetAllUser(db):
         try:
+            logger.error(f"Fetching all Users")
             return db.execute(select(User_Class)).scalars().all()
         except SQLAlchemyError as e:
+            logger.error(f"Error while Fetching all Users")
             raise CustomException.RepositoryError("Error While Fetching All Users") from e

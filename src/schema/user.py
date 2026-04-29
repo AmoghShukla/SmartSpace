@@ -19,14 +19,22 @@ class MemberCreate(BaseModel):
     user_contact_no : str = Field(..., min_length=10, max_length=10)
     user_role : UserRole = Field(default="MEMBER")
 
-class GuestCreate(BaseModel):
+class ResourceManagerCreate(BaseModel):
     user_name : str = Field(...)
     user_email : str = Field(...)
     user_password : str = Field(...)
     user_contact_no : str = Field(..., min_length=10, max_length=10)
-    user_role : UserRole = Field(default="GUEST")
+    user_role : UserRole = Field(default="RESOURCE_MANAGER")
 
 class UserResponse(BaseModel):
+    user_id : Optional[UUID4] = None
+    user_name : Optional[str] = None
+    user_email : Optional[str] = None
+    user_role : Optional[str] = None
+
+    model_config = ConfigDict(from_attributes= True)
+
+class UpdateUserResponse(BaseModel):
     user_id : Optional[UUID4] = None
     user_name : Optional[str] = None
     user_email : Optional[str] = None

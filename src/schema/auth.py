@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 class LoginRequest(BaseModel):
     user_email : EmailStr
@@ -8,4 +8,4 @@ class LoginResponse(BaseModel):
     message : str
     access_token : str
     refresh_token : str
-    token_type : str
+    token_type : str = Field(default='Bearer')

@@ -62,5 +62,5 @@ class AuthService:
             'message' : ' Logged In Successfully!!!!',
             'access_token' : access_token,
             'refresh_token' : refresh_token,
-            'token_type' : 'Bearer Token'
+            'token_type' : 'Bearer'
         }

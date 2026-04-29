@@ -12,6 +12,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     try:
+        print('*'*100)
+        print(token)
+        print('*'*100)
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
 
         if not payload:
@@ -25,8 +28,9 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 
         return {
             'user_id': user_id,
-            'user_role': user_role,
+            'user_role': user_role
         }
+    
     except SQLAlchemyError as e:
         raise HTTPException("Error While Getting Current User") from e
 

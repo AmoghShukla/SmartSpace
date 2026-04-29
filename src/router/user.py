@@ -38,4 +38,4 @@ def GetAllUsers(db: Session = Depends(get_db), user = Depends(required_role(['AD
     try:
         return UserService.GetAllUsers(db)
     except CustomException.ServiceError as e:
-        raise HTTPException("Error While Fetching Users!!!") from e
+        raise HTTPException(status_code=401, detail=str(e))

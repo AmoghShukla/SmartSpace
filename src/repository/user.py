@@ -54,4 +54,7 @@ class UserRepository:
     
     @staticmethod
     def GetAllUser(db):
-        return db.execute(select(User_Class)).scalars().all()
+        try:
+            return db.execute(select(User_Class)).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("Error While Fetching All Users") from e

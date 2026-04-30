@@ -23,3 +23,27 @@ def CreateFloor(workspace_id : UUID, db : Session = Depends(get_db)):
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating floor with workpace id : {workspace_id}")
         raise HTTPException(status_code=400, detail="Error While Creating Floor!!!") from e
+
+@router.get('/{workspace_id}', response_model=list[FloorResponse])
+def GetAllFloors(workspace_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching floor at workspace {workspace_id} ")
+        return FloorService.GetAllFloorsByWorkspaceID(db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching floor ")
+        raise HTTPException(status_code=400, detail=f"Error While fetching Floor at workspace id : {workspace_id}!!!") from e
+
+
+
+
+
+@router.get('/all', response_model=list[FloorResponse])
+def GetAllFloors(db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching floor at workspace ")
+        return FloorService.GetAllFloorsByWorkspaceID(db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching floor ")
+        raise HTTPException(status_code=400, detail="Error While fetching Floor!!!") from e
+
+

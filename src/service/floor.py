@@ -13,5 +13,17 @@ class FloorService:
             return WorkspaceRepository.CreateWorkspace(workspace_id, current_floor, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Creating Workspace") from e
-        
     
+    @staticmethod
+    def GetAllFloorsByWorkspaceID(workspace_id , db):
+        try:
+            return FloorRepository.GetallFloorsByWorkspaceID(workspace_id, db)
+        except CustomException.RepositoryError() as e:
+            raise CustomException.ServiceError(f"Error While Fetching all the Floors of workspace Id : {workspace_id}") from e
+    
+    @staticmethod
+    def GetAllFloors(db):
+        try:
+            return FloorRepository.GetallFloors(db)
+        except CustomException.RepositoryError() as e:
+            raise CustomException.ServiceError("Error While Fetching all the Floors") from e

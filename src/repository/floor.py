@@ -28,29 +28,20 @@ class FloorRepository:
         return count
 
 
+    @staticmethod
+    def GetallFloorsByWorkspaceID(workspace_id, db):
+        try:
+            return db.execute(select(Floor_Class).where(Floor_Class.workspace_id==workspace_id and Floor_Class.is_deleted == False)).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("No Such Floor Exists") from e
+    @staticmethod
+    def GetallFloors(db):
+        try:
+            return db.execute(select(Floor_Class).where(Floor_Class.is_deleted == False)).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Eror while fetching all the floors") from e
 
-'''
-    @staticmethod
-    def GetWorkspaceByName(workspace_name, db):
-        try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_name==workspace_name and Workspace_Class.is_deleted == False)).scalars().first()
-        except SQLAlchemyError as e:
-            raise CustomException.RepositoryError("No Such Workspace Exists") from e
-    
-    @staticmethod
-    def GetWorkspaceByLocation(workspace_location, db):
-        try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_location==workspace_location and Workspace_Class.is_deleted == False)).scalars().first()
-        except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"No Such Workspace Exists at this location : {workspace_location}") from e
-    
-    @staticmethod
-    def GetallWorkspaces(db):
-        try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.is_deleted == False)).scalars().all()
-        except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"Eror while fetching all the workspaces ") from e
-
+'''    
 
     @staticmethod
     def SoftDeleteWorkspace(workspace_id, db):

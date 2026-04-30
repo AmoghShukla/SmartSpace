@@ -83,9 +83,9 @@ class UserRepository:
             raise CustomException.RepositoryError("Error While Fetching All Users") from e
         
     @staticmethod
-    def UpdateUser(user, payload, db):
+    def UpdateUser(user, updated_user, db):
         try:
-            update_dict = payload.model_dump(exclude_none = True)
+            update_dict = updated_user.model_dump(exclude_none = True)
 
             for key,value in update_dict.items():
                 setattr(user,key,value)

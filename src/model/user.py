@@ -1,5 +1,7 @@
 from datetime import UTC, datetime
 
+from sqlalchemy.orm import Relationship
+
 from src.database.Base import base
 from uuid import uuid4
 from sqlalchemy import Boolean, Column, String, UUID
@@ -17,4 +19,6 @@ class User_Class(base):
     user_role = Column(String, default=UserRole.USER)
     updated_at = Column(String, default=datetime.now(UTC))
     is_deleted = Column(Boolean, default=False)
+
+    workspace = Relationship('Workspace_Class', back_populates='user')
 

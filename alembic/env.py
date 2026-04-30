@@ -2,7 +2,9 @@ from logging.config import fileConfig
 
 from src.database.Base import base
 from src.core.config import settings
-from src.model import User_Class
+from src.model.user import User_Class
+from src.model.floor import Floor_Class
+from src.model.workspace import Workspace_Class
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

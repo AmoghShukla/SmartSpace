@@ -10,7 +10,6 @@ class UserCreate(BaseModel):
     user_email : str = Field(...)
     user_password : str = Field(...)
     user_contact_no : str = Field(..., min_length=10, max_length=10)
-    user_role : UserRole = Field(default="USER")
 
 class MemberCreate(BaseModel):
     user_name : str = Field(...)
@@ -36,8 +35,6 @@ class UserResponse(BaseModel):
 
 class UpdateUser(BaseModel):
     user_name: Optional[str] = None
-    user_email: Optional[EmailStr] = None
-    user_password: Optional[str] = Field(default=None)
-    user_contact_no: Optional[str] = Field(default=None)
+    user_contact_no: Optional[str] = None
 
     model_config = ConfigDict(from_attributes= True)

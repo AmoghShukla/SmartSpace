@@ -1,0 +1,20 @@
+from datetime import UTC, datetime
+
+from sqlalchemy.orm import Relationship
+
+from src.database.Base import base
+from uuid import uuid4
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, UUID
+from src.model.enum import UserRole
+
+
+class Workspace_Class(base):
+    __tablename__="Workspace_Table"
+
+    workspace_id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
+    workspace_name = Column(String, nullable=False)
+    workspace_location = Column(String, nullable=False, index=True)
+    workspace_manager_id = Column(UUID, ForeignKey('User_Table.user_id'))
+
+    user = Relationship('User_Class', back_populates='workspace')
+    floor = Relationship('Floor_Class', back_populates='workspace')

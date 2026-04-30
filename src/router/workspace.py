@@ -1,6 +1,5 @@
-from src.repository.user import UserRepository
-from src.schema.user import MemberCreate, ResourceManagerCreate, UserResponse, UserCreate, UpdateUser
-from src.service.user import UserService
+from src.repository.workspace import UserRepository
+from src.schema.workspace import WorkspaceCreate, WorkspaceResponse
 from src.database.Session import get_db
 from src.Exceptions.Custom_Exception import CustomException
 from src.dependencies.auth import get_current_user, required_role
@@ -11,17 +10,17 @@ from pydantic import EmailStr
 
 from fastapi import APIRouter, HTTPException, Depends
 
-router = APIRouter(prefix="/User", tags=['User'])
+router = APIRouter(prefix="/Workspace", tags=['Workspace'])
 logger = get_logger(__name__)
 
-@router.post('/create_user', response_model=UserResponse, include_in_schema=False)
-def CreateUser(payload : UserCreate, db : Session = Depends(get_db)):
+@router.post('/create_workspace', response_model=WorkspaceResponse)
+def CreateUser(payload : WorkspaceCreate, db : Session = Depends(get_db)):
     try:
-        logger.info(f"Creating user with Payload : {payload}")
-        UserService.CreateUser(payload, db)
+        logger.info(f"Creating workspace with Payload : {payload}")
+        return ServiceWorkspace.CreateWorkspace(payload, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Creating User with Payload : {payload}")
-        raise HTTPException("Error While Creating User!!!") from e
+        logger.error(f"Error while Creating workspace with Payload : {payload}")
+        raise HTTPException(status_code=400, detail="Error While Creating workspace!!!") from e
     
 @router.post('/create_member', response_model=UserResponse)
 def CreateMember(payload : MemberCreate, db : Session = Depends(get_db)):

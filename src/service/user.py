@@ -1,6 +1,8 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from src.core.security import AuthSecurity
+from src.model.user import User_Class
 from src.repository.user import UserRepository
 from src.Exceptions.Custom_Exception import CustomException
 from src.dependencies.auth import get_current_user

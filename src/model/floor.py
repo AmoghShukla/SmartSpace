@@ -12,7 +12,6 @@ class Floor_Class(base):
     __tablename__ = "Floor_Table"
 
     floor_id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
-    floor_number = Column(Integer, nullable=False, index=True)
+    floor_number = Column(Integer, nullable=False, index=True, unique=True)
     workspace_id = Column(UUID, ForeignKey('Workspace_Table.workspace_id'))
-
-    workspace = Relationship('Workspace_Class', back_populates='floor')
+    is_deleted = Column(Boolean, default=False)

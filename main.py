@@ -7,18 +7,14 @@ from src.model.enum import UserRole
 from src.database.Session import session
 from src.core.config import settings
 from src.utils.loggers import get_logger
-from src.router.auth import router as AuthRouter
-from src.router.user import router as UserRouter
-from src.router.promotions import router as PromtionsRouter
+from src.router import all_router
 
 app = FastAPI(title="SmartSpace : Workspace Booking & Resource Management API", version="1.0")
 
 logger = get_logger(__name__)
 
-app.include_router(AuthRouter)
-app.include_router(UserRouter)
-app.include_router(PromtionsRouter)
-
+for router in all_router:
+    app.include_router(router)
 
 @app.on_event("startup")
 def seed_admin():

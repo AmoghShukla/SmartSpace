@@ -1,8 +1,9 @@
 import enum
 from typing import Optional
 import uuid
+from uuid import UUID
 
-from pydantic import BaseModel, EmailStr, Field, UUID4, ConfigDict, UUID
+from pydantic import BaseModel, EmailStr, Field, UUID4, ConfigDict
 from src.model.enum import UserRole
 
 class WorkspaceCreate(BaseModel):

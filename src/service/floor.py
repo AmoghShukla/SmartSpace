@@ -4,7 +4,7 @@ from src.repository.workspace import WorkspaceRepository
 from src.repository.floor import FloorRepository
 from src.Exceptions.Custom_Exception import CustomException
 
-class WorkspaceService:
+class FloorService:
 
     @staticmethod
     def CreateFloor(workspace_id : UUID, db):

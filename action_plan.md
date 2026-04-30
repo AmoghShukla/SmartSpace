@@ -7,10 +7,9 @@ Roles:
 
 Resource Types:
 
-1) Chair
-2) Meeting Room
-3) Hall/Auditorium
-4) Projector
+1) Meeting Room
+2) Hall/Auditorium
+
 
 
 Registration:

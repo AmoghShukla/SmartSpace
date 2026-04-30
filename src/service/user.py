@@ -43,3 +43,11 @@ class UserService:
             return UserRepository.GetAllUser(db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Users") from e
+
+
+    @staticmethod
+    def UpdateUser(user, payload, db: Session):
+        try:
+            return UserRepository.UpdateUser(user, payload, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("Error While Updating User") from e

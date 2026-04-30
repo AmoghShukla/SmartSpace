@@ -34,7 +34,7 @@ class UserResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes= True)
 
-class UpdateUserResponse(BaseModel):
+class UpdateUser(BaseModel):
     user_name: Optional[str] = None
     user_email: Optional[EmailStr] = None
     user_password: Optional[str] = Field(default=None)

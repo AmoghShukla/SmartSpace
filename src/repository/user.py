@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 
@@ -59,7 +61,7 @@ class UserRepository:
             logger.info(f"Fetching User with email : {user_email}")
             return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
         except SQLAlchemyError as e:
-            logger.error(f"Error while Fetching User Email : {user_email}")
+            logger.error(f"Error while Fetching User Email : {user_email} {e}")
             raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
     
     @staticmethod
@@ -79,3 +81,19 @@ class UserRepository:
         except SQLAlchemyError as e:
             logger.error(f"Error while Fetching all Users")
             raise CustomException.RepositoryError("Error While Fetching All Users") from e
+        
+    @staticmethod
+    def UpdateUser(user, payload, db):
+        try:
+            update_dict = payload.model_dump(exclude_none = True)
+
+            for key,value in update_dict.items():
+                setattr(user,key,value)
+            user.updated_at = datetime.now(UTC)
+            db.commit()
+            db.refresh(user)
+            return user
+
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise CustomException.RepositoryError("Error While Updating User") from e

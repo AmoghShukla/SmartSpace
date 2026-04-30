@@ -1,5 +1,5 @@
 from src.repository.user import UserRepository
-from src.schema.user import MemberCreate, ResourceManagerCreate, UserResponse, UserCreate
+from src.schema.user import MemberCreate, ResourceManagerCreate, UserResponse, UserCreate, UpdateUser
 from src.service.user import UserService
 from src.database.Session import get_db
 from src.Exceptions.Custom_Exception import CustomException
@@ -79,10 +79,11 @@ def GetAllUsers(db: Session = Depends(get_db), user = Depends(required_role(['AD
         raise HTTPException(status_code=401, detail=str(e))
     
 @router.patch('/update_user', response_model=UserResponse)
-def Update(payload : UserCreate, db : Session = Depends(get_db)):
+def UpdateSelfProfile(payload : UpdateUser, current_user = Depends(get_current_user), db : Session = Depends(get_db)):
     try:
+        user = UserService.GetMyProfile(current_user['user_id'],db)
         logger.info(f"Updating user with Payload : {payload}")
-        UserService.UpdateUser(payload, db)
+        UserService.UpdateUser(user, payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Updating User with Payload : {payload}")
-        raise HTTPException("Error While Updating User!!!") from e
+        raise HTTPException(status_code=400,detail="Error While Updating User!!!") from e

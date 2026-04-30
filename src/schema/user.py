@@ -2,7 +2,7 @@ import enum
 from typing import Optional
 import uuid
 
-from pydantic import BaseModel, Field, UUID4, ConfigDict
+from pydantic import BaseModel, EmailStr, Field, UUID4, ConfigDict
 from src.model.enum import UserRole
 
 class UserCreate(BaseModel):
@@ -35,9 +35,9 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes= True)
 
 class UpdateUserResponse(BaseModel):
-    user_id : Optional[UUID4] = None
-    user_name : Optional[str] = None
-    user_email : Optional[str] = None
-    user_role : Optional[str] = None
+    user_name: Optional[str] = None
+    user_email: Optional[EmailStr] = None
+    user_password: Optional[str] = Field(default=None)
+    user_contact_no: Optional[str] = Field(default=None)
 
     model_config = ConfigDict(from_attributes= True)

@@ -4,6 +4,6 @@ class UserRole(Enum):
     MEMBER = "MEMBER"
     USER = "USER"
     ADMIN = "ADMIN"
-    RESOURCE_MANAGER = "RESOURCE_MANAGER"
+    WORKSPACE_MANAGER = "WORKSPACE_MANAGER"
     
     

@@ -12,6 +12,7 @@ class WorkspaceCreate(BaseModel):
     workspace_manager_id : UUID = Field(...)
 
 class WorkspaceResponse(BaseModel):
+    workspace_id : Optional[UUID] = Field(...)
     workspace_name : Optional[str] = Field(...)
     workspace_location : Optional[str] = Field(...)
     workspace_manager_id : Optional[UUID] = Field(...)

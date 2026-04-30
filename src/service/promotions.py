@@ -33,7 +33,25 @@ class PromotionsService:
             return PromotionsRepository.promote(user, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError(f"Error Encountered while creating user wit payload {user}") from e
-        
+
+    @staticmethod
+    def MakeWorkSpaceManager(user_email, db):
+        try:
+            user = UserRepository.GetUserByEmail(user_email, db)
+
+            if not user:
+                raise CustomException.ServiceError("User Does Not Exists")
+
+            if user.user_role != "WORKSPACE_MANAGER":
+                user.user_role = "WORKSPACE_MANAGER"
+            else:
+                raise CustomException.ServiceError("User is Already an Workspace Manager!!")
+            
+            return PromotionsRepository.promote(user, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError(f"Error Encountered while Promoting user with payload {user}") from e
+
+
     @staticmethod
     def MakeUser(user_email, db):
         try:

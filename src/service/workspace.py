@@ -20,7 +20,14 @@ class WorkspaceService:
             return WorkspaceRepository.GetWorkspaceByName(workspace_name, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Workspace") from e
-    
+
+    @staticmethod
+    def GetWorkspaceByID(workspace_id, db):
+        try:
+            return WorkspaceRepository.GetWorkspaceByID(workspace_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("Error While Fetching Workspace") from e
+
     @staticmethod
     def GetWorkspaceByLocation(workspace_location, db):
         try:

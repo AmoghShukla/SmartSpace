@@ -23,7 +23,17 @@ def MakeAdmin(user_email : EmailStr, db: Session = Depends(get_db), user = Depen
     except CustomException.ServiceError as e:
         logger.error(f"Error while Promoting user with user_email : {user_email} to Member")
         raise HTTPException("Error While Promoting user with user_email : {user_email} to Member") from e
+
+@router.post('/make_WorkspaceManager', response_model=UserResponse)
+def MakeWorkspaceManager(user_email : EmailStr, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
+    try:
+        logger.info(f"Promoting user with user_email : {user_email} to WorkSpaceManager")
+        return PromotionsService.MakeWorkSpaceManager(user_email, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Promoting user with user_email : {user_email} to WorkSpaceManager")
+        raise HTTPException(status_code=400, detail=f"Error While Promoting user with user_email : {user_email} to WorkSpaceManager") from e
     
+
 @router.post('/make_member', response_model=UserResponse)
 def MakeMember(user_email : EmailStr, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:

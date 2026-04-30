@@ -1,44 +1,39 @@
 from datetime import UTC, datetime
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import select
+from sqlalchemy import UUID, func, select
 
 from src.model.floor import Floor_Class
-from src.model.enum import UserRole
-from src.model.workspace import Workspace_Class
 from src.Exceptions.Custom_Exception import CustomException
-
 from src.utils.loggers import get_logger
 
 logger = get_logger(__name__)
 
-class WorkspaceRepository:
+class FloorRepository:
 
     @staticmethod
-    def CreateWorkspace(workspace_id, current_floor , db):
-        try:
-            new_floor = Floor_Class(
-                floor_number = current_floor,
-                workspace_id = workspace_id,
-            )
-            db.add(new_floor)
+    def CreateFloor(payload : UUID, db):
+        try:            
+            db.add(payload)
             db.commit()
-            db.refresh(new_floor)
-            return new_floor
+            db.refresh(payload)
+            return payload
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("Error while Creating Floor : Repository") from e
+    
+    @staticmethod
+    def current_floor(workspace_id, db):
+        floors = select(func.count()).where(Floor_Class.workspace_id == workspace_id)
+        count = db.execute(floors).scalar()
+        return count
 
+
+
+'''
     @staticmethod
     def GetWorkspaceByName(workspace_name, db):
         try:
             return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_name==workspace_name and Workspace_Class.is_deleted == False)).scalars().first()
-        except SQLAlchemyError as e:
-            raise CustomException.RepositoryError("No Such Workspace Exists") from e
-    
-    @staticmethod
-    def GetWorkspaceByID(workspace_id, db):
-        try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_id==workspace_id and Workspace_Class.is_deleted == False)).scalars().first()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Workspace Exists") from e
     
@@ -87,4 +82,4 @@ class WorkspaceRepository:
             }
         except SQLAlchemyError as e:
             db.rollback()
-            raise CustomException.RepositoryError("No Such Workspace Exists") from e
+            raise CustomException.RepositoryError("No Such Workspace Exists") from e'''

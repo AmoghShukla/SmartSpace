@@ -36,42 +36,48 @@ class FloorRepository:
             raise CustomException.RepositoryError("No Such Floor Exists") from e
         
     @staticmethod
+    def GetFloorByFloorID(floor_id, db):
+        try:
+            return db.execute(select(Floor_Class).where(Floor_Class.floor_id==floor_id and Floor_Class.is_available == True)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("No Such Floor Exists") from e
+        
+    @staticmethod
     def GetallFloors(db):
         try:
             return db.execute(select(Floor_Class).where(Floor_Class.is_deleted == False)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the floors") from e
 
-'''    
-
     @staticmethod
-    def SoftDeleteWorkspace(workspace_id, db):
+    def SoftDeleteWorkspace(floor_id, db):
         try:
-            Current_Workspace = db.execute(select(Workspace_Class).where(Workspace_Class.workspace_id==workspace_id and Workspace_Class.is_deleted == False)).scalars().first()
-            if not Current_Workspace:
-                raise SQLAlchemyError("No Such Workspace Exists")
+            current_floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id==floor_id and Floor_Class.is_available == False)).scalars().first()
+            if not current_floor:
+                raise SQLAlchemyError("Floor is not Available to use!!!")
             
-            Current_Workspace.is_deleted = True
+            Floor_Class.is_available = False
             db.commit()
             return {
-                "message" : "Workspace Deleted Successfully!!!" 
+                "message" : "Floor Unavailable now!!!" 
             }
         except SQLAlchemyError as e:
             db.rollback()
-            raise CustomException.RepositoryError("No Such Workspace Exists") from e
+            raise CustomException.RepositoryError("Floor Unavailable to use") from e
+        
     
     @staticmethod
-    def HardDeleteWorkspace(workspace_id, db):
+    def UpdateUser(floor, updated_floor, db):
         try:
-            Current_Workspace = db.execute(select(Workspace_Class).where(Workspace_Class.workspace_id==workspace_id)).scalars().first()
-            if not Current_Workspace:
-                raise SQLAlchemyError("No Such Workspace Exists")
-            
-            db.delete(Current_Workspace)
+            update_dict = updated_floor.model_dump(exclude_unset = True)
+
+            for key,value in update_dict.items():
+                setattr(floor,key,value)
+            floor.updated_at = datetime.now(UTC)
             db.commit()
-            return {
-                "message" : "Workspace Deleted Successfully!!!" 
-            }
+            db.refresh(floor)
+            return floor
+
         except SQLAlchemyError as e:
             db.rollback()
-            raise CustomException.RepositoryError("No Such Workspace Exists") from e'''
+            raise CustomException.RepositoryError("Error While Updating User") from e

@@ -28,3 +28,21 @@ class FloorService:
             return FloorRepository.GetallFloors(db)
         except CustomException.RepositoryError() as e:
             raise CustomException.ServiceError("Error While Fetching all the Floors") from e
+    
+    @staticmethod
+    def GetFloorByFloorID(floor_id, db):
+        try:
+            return FloorRepository.GetFloorByFloorID(floor_id, db)
+        except CustomException.RepositoryError() as e:
+            raise CustomException.ServiceError("Error While Fetching all the Floors") from e
+    
+    @staticmethod
+    def MakeFloorUnavailable(floor_id, db):
+        try:
+            exists = FloorRepository.GetFloorByFloorID(floor_id, db)
+            if not exists:
+                raise CustomException.ServiceError("No Such Floor Found") from e
+            return FloorRepository.SoftDeleteWorkspace(floor_id, db)
+
+        except CustomException.RepositoryError as e:
+            raise CustomException.RepositoryError("Floor Unavailable to use : Service Layer") from e

@@ -67,17 +67,16 @@ class FloorRepository:
         
     
     @staticmethod
-    def UpdateUser(floor, updated_floor, db):
+    def UpdateFloor(floor, updated_floor, db):
         try:
             update_dict = updated_floor.model_dump(exclude_unset = True)
 
             for key,value in update_dict.items():
                 setattr(floor,key,value)
-            floor.updated_at = datetime.now(UTC)
             db.commit()
             db.refresh(floor)
             return floor
 
         except SQLAlchemyError as e:
             db.rollback()
-            raise CustomException.RepositoryError("Error While Updating User") from e
+            raise CustomException.RepositoryError("Error While Updating Floor") from e

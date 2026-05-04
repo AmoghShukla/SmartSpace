@@ -1,5 +1,7 @@
 from uuid import UUID
 
+from sqlalchemy.orm import Session
+
 from src.repository.workspace import WorkspaceRepository
 from src.repository.floor import FloorRepository
 from src.Exceptions.Custom_Exception import CustomException
@@ -36,6 +38,14 @@ class FloorService:
         except CustomException.RepositoryError() as e:
             raise CustomException.ServiceError("Error While Fetching all the Floors") from e
     
+    @staticmethod
+    def UpdateFloor(floor_id, payload, db: Session):
+        try:
+            floor = FloorRepository.GetFloorByFloorID(floor_id, db)
+            return FloorRepository.UpdateUser(floor, payload, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("Error While Updating Floor") from e
+
     @staticmethod
     def MakeFloorUnavailable(floor_id, db):
         try:

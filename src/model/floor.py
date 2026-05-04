@@ -15,5 +15,8 @@ class Floor_Class(base):
     floor_number = Column(Integer, nullable=False, index=True)
     workspace_id = Column(UUID, ForeignKey('Workspace_Table.workspace_id'))
     is_available = Column(Boolean, default=True)
-    floor_meeting_room_capacity = Column(Integer, default=7, server_default="7")
-    floor_auditorium_capacity = Column(Integer, default=3, server_default="3")
+    total_floor_meeting_room_capacity = Column(Integer, default=7, server_default="7")
+    available_floor_meeting_room_capacity = Column(Integer, default=7, server_default="7")
+    total_floor_auditorium_capacity = Column(Integer, default=7, server_default="7")
+    avaialable_floor_auditorium_capacity = Column(Integer, default=3, server_default="3")
+    

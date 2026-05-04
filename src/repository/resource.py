@@ -3,6 +3,7 @@ from datetime import UTC, datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import UUID, func, select
 
+from src.model.floor import Floor_Class
 from src.model.resource import Resource_Class
 from src.Exceptions.Custom_Exception import CustomException
 from src.utils.loggers import get_logger
@@ -38,9 +39,13 @@ class ResourceRepository:
     @staticmethod
     def Resource_Availability(floor_id, resource_type, db):
         try:
+            if resource_type == "MEETING_ROOM":
+                available = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_meeting_room_capacity > 0))
+            elif resource_type == "AUDITORIUMN":
+                available = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_auditorium_capacity > 0))
             return db.execute(select(Resource_Class).where(Resource_Class.floor_id == floor_id , Resource_Class.resource_type == resource_type, Resource_Class.is_avaialable == True)).scalars().first()
         except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
+            raise CustomException.RepositoryError(f"Error while fetching all the Resources") from e
 
     @staticmethod
     def get_resource_by_id(resource_id, db):
@@ -57,6 +62,23 @@ class ResourceRepository:
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
     
+    @staticmethod
+    def UpdateResource(resource, updated_resource, db):
+        try:
+            update_dict = updated_resource.model_dump(exclude_unset = True)
+
+            for key,value in update_dict.items():
+                setattr(resource,key,value)
+            db.commit()
+            db.refresh(resource)
+            return resource
+
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise CustomException.RepositoryError("Error While Updating Floor") from e
+
+
+
     @staticmethod
     def soft_delete_resource_by_ID(resource_id, db):
         try:

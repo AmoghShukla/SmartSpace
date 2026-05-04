@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import UTC, datetime, time
 
 from sqlalchemy.orm import Relationship
 
@@ -16,8 +16,8 @@ class Resource_Class(base):
     resource_capacity = Column(Integer, nullable=False)
     is_avaialable = Column(Boolean, default=True)
     requires_approval = Column(Boolean, default=True)
-    open_time = Column(Time, nullable=False, server_default="")
-    close_time = Column(Time, nullable=False)
+    open_time = Column(Time, nullable=False, default=time(6, 30), server_default="06:30:00")
+    close_time = Column(Time, nullable=False, default=time(22, 30),server_default="22:30:00")
     floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id'))
 
     user = Relationship('User_Class', back_populates='resource')

@@ -3,14 +3,15 @@ from uuid import UUID
 from src.repository.workspace import WorkspaceRepository
 from src.repository.floor import FloorRepository
 from src.Exceptions.Custom_Exception import CustomException
+from src.schema.resource import ResourceCreate
 
 class FloorService:
 
     @staticmethod
-    def CreateFloor(workspace_id : UUID, db):
+    def CreateFloor(payload : ResourceCreate, db):
         try:
-            current_floor = FloorRepository.current_floor(workspace_id, db) + 1        
-            return WorkspaceRepository.CreateWorkspace(workspace_id, current_floor, db)
+            current_floor = FloorRepository.current_floor(payload.workspace_id, db) + 1        
+            return WorkspaceRepository.CreateWorkspace(payload, current_floor, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Creating Workspace") from e
     

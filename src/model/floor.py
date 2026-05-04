@@ -15,3 +15,5 @@ class Floor_Class(base):
     floor_number = Column(Integer, nullable=False, index=True)
     workspace_id = Column(UUID, ForeignKey('Workspace_Table.workspace_id'))
     is_deleted = Column(Boolean, default=False)
+    floor_meeting_room_capacity = Column(Integer, default=7, server_default="7")
+    floor_auditorium_capacity = Column(Integer, default=3, server_default="3")

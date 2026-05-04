@@ -15,6 +15,7 @@ class Workspace_Class(base):
     workspace_name = Column(String, nullable=False, unique=True)
     workspace_location = Column(String, nullable=False, index=True)
     workspace_manager_id = Column(UUID, ForeignKey('User_Table.user_id'))
+    workspace_floor_capacity = Column(Integer, default=10, server_default="10")
     created_at = Column(String, default=datetime.now(UTC))
     is_deleted = Column(Boolean, default=False)
 

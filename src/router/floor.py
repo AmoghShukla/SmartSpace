@@ -16,12 +16,12 @@ router = APIRouter(prefix="/Floor", tags=['Floor'])
 logger = get_logger(__name__)
 
 @router.post('/create_floor', response_model=FloorResponse)
-def CreateFloor(workspace_id : UUID, db : Session = Depends(get_db)):
+def CreateFloor(payload : FloorCreate, db : Session = Depends(get_db)):
     try:
-        logger.info(f"Creating floor at workspace with workspace_id : {workspace_id}")
-        return FloorService.CreateFloor(workspace_id, db)
+        logger.info(f"Creating floor at workspace with workspace_id : {payload.workspace_id}, Floor_Auditorium_Capacity : {payload.floor_auditorium_capacity}, Floor_Meeting_Room_Capacity : {payload.floor_meeting_room_capacity}")
+        return FloorService.CreateFloor(payload, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Creating floor with workpace id : {workspace_id}")
+        logger.error(f"Creating floor at workspace with workspace_id : {payload.workspace_id}, Floor_Auditorium_Capacity : {payload.floor_auditorium_capacity}, Floor_Meeting_Room_Capacity : {payload.floor_meeting_room_capacity}")
         raise HTTPException(status_code=400, detail="Error While Creating Floor!!!") from e
 
 @router.get('/{workspace_id}', response_model=list[FloorResponse])

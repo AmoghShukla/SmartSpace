@@ -15,11 +15,13 @@ logger = get_logger(__name__)
 class WorkspaceRepository:
 
     @staticmethod
-    def CreateWorkspace(workspace_id, current_floor , db):
+    def CreateWorkspace(payload, current_floor , db):
         try:
             new_floor = Floor_Class(
                 floor_number = current_floor,
-                workspace_id = workspace_id,
+                workspace_id = payload.workspace_id,
+                floor_meeting_room_capacity = payload.floor_meeting_room_capacity,
+                floor_auditorium_capacity = payload.floor_auditorium_capacity
             )
             db.add(new_floor)
             db.commit()

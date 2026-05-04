@@ -1,10 +1,10 @@
-from datetime import UTC, datetime, time
+from datetime import UTC, date, time
 
 from sqlalchemy.orm import Relationship
 
 from src.database.Base import base
 from uuid import uuid4
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Time, UUID, Enum as SQLAlchemyEnum
+from sqlalchemy import CheckConstraint, Boolean, Column, ForeignKey, Integer, String, Time, UUID, Enum as SQLAlchemyEnum
 from src.model.enum import ResourceType
 
 
@@ -17,9 +17,13 @@ class Resource_Class(base):
     is_avaialable = Column(Boolean, default=True)
     requires_approval = Column(Boolean, default=True)
     open_time = Column(Time, nullable=False, default=time(6, 30), server_default="06:30:00")
-    close_time = Column(Time, nullable=False, default=time(22, 30),server_default="22:30:00")
+    close_time = Column(Time, nullable=False, default=time(22, 30), server_default="22:30:00")
+    is_deleted = Column(Boolean, default=False)
     floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id'))
 
     user = Relationship('User_Class', back_populates='resource')
+    booking = Relationship('Booking_Class', back_populates="resource")
+
+    __table_args__ = (CheckConstraint("resource_capacity > 0", name = "check_capacity_positive"),)
     
     

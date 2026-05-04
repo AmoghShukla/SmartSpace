@@ -34,3 +34,45 @@ class ResourceRepository:
             return db.execute(select(Resource_Class).where(Resource_Class.is_deleted == False)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
+
+    @staticmethod
+    def Resource_Availability(floor_id, resource_type, db):
+        try:
+            return db.execute(select(Resource_Class).where(Resource_Class.floor_id == floor_id , Resource_Class.resource_type == resource_type, Resource_Class.is_avaialable == True)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
+
+    @staticmethod
+    def get_resource_by_id(resource_id, db):
+        try:
+            return db.execute(select(Resource_Class).where(Resource_Class.resource_id == resource_id , Resource_Class.is_deleted == False)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
+        
+
+    @staticmethod
+    def get_resource_by_floorID(floor_id, db):
+        try:
+            return db.execute(select(Resource_Class).where(Resource_Class.floor_id == floor_id , Resource_Class.is_deleted == False)).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
+    
+    @staticmethod
+    def soft_delete_resource_by_ID(resource_id, db):
+        try:
+            db.commit()
+            db.refresh()
+            return "Resource Deleted Successfully!!!"
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Error while deleting the Resource with resource_id {resource_id}") from e
+
+    @staticmethod
+    def hard_delete_resource_by_ID(resource, db):
+        try:
+            db.delete(resource)
+            db.commit()
+            db.refresh()
+            return "Resource Deleted Successfully!!!"
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Error while deleting the Resource with resource_id {resource_id}") from e
+

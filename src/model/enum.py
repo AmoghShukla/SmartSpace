@@ -10,4 +10,8 @@ class ResourceType(Enum):
     MEETING_ROOM = "MEETING_ROOM"
     AUDITORIUMN = "AUDITORIUMN"
     
-    
+class BookingStatus(str, Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    CANCELLED = "CANCELLED"

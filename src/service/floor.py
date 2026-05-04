@@ -11,7 +11,7 @@ class FloorService:
     def CreateFloor(payload : ResourceCreate, db):
         try:
             current_floor = FloorRepository.current_floor(payload.workspace_id, db) + 1        
-            return WorkspaceRepository.CreateWorkspace(payload, current_floor, db)
+            return FloorRepository.CreateFloor(payload, current_floor, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Creating Workspace") from e
     

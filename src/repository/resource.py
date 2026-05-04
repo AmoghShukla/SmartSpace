@@ -37,13 +37,12 @@ class ResourceRepository:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
 
     @staticmethod
-    def Resource_Availability(floor_id, resource_type, db):
+    def Capacity_Availability(floor_id, resource_type, db):
         try:
             if resource_type == "MEETING_ROOM":
-                available = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_meeting_room_capacity > 0))
+                return db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_meeting_room_capacity > 0))
             elif resource_type == "AUDITORIUMN":
-                available = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_auditorium_capacity > 0))
-            return db.execute(select(Resource_Class).where(Resource_Class.floor_id == floor_id , Resource_Class.resource_type == resource_type, Resource_Class.is_avaialable == True)).scalars().first()
+                return db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_auditorium_capacity > 0))
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Error while fetching all the Resources") from e
 
@@ -77,8 +76,6 @@ class ResourceRepository:
             db.rollback()
             raise CustomException.RepositoryError("Error While Updating Floor") from e
 
-
-
     @staticmethod
     def soft_delete_resource_by_ID(resource_id, db):
         try:
@@ -96,5 +93,5 @@ class ResourceRepository:
             db.refresh()
             return "Resource Deleted Successfully!!!"
         except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"Error while deleting the Resource with resource_id {resource_id}") from e
+            raise CustomException.RepositoryError(f"Error while deleting the Resource with resource_id {resource.resource_id}") from e
 

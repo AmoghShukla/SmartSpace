@@ -34,6 +34,7 @@ class FloorRepository:
             return db.execute(select(Floor_Class).where(Floor_Class.workspace_id==workspace_id and Floor_Class.is_deleted == False)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Floor Exists") from e
+        
     @staticmethod
     def GetallFloors(db):
         try:

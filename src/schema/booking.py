@@ -13,6 +13,7 @@ class BookingCreate(BaseModel):
     end_time : time
 
 class BookingSecondCreate(BaseModel):
+    user_id : UUID
     workspace_id : UUID
     floor_id : UUID
     booking_date : date
@@ -21,6 +22,7 @@ class BookingSecondCreate(BaseModel):
     end_time : time
 
 class BookingCreateResponse(BaseModel):
+    user_id : UUID
     booking_id : UUID
     workspace_id : UUID
     floor_id : UUID

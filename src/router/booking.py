@@ -19,7 +19,7 @@ logger = get_logger(__name__)
 def CreateBooking(resource_ids : list[UUID],payload : BookingCreate, db : Session = Depends(get_db), current_user = Depends(get_current_user)):
     try:
         logger.info(f"Creating booking with Payload : {payload}")
-        return BookingService.CreateBooking(resource_ids, payload, db)
+        return BookingService.CreateBooking(current_user, resource_ids, payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Booking with Payload : {payload}")
         raise HTTPException(status_code=400, detail="Error While Booking!!!") from e

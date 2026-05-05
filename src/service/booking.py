@@ -17,8 +17,9 @@ logger = get_logger(__name__)
 class BookingService:
 
     @staticmethod
-    def CreateBooking(resource_ids, Payload, db):
+    def CreateBooking(user, resource_ids, Payload, db):
         try:
+            current_user_id = user["user_id"]
             logger.info(f"Creating Booking with Payload {Payload}")
             res = []
             for current_resource_id in resource_ids:
@@ -27,10 +28,11 @@ class BookingService:
                 floor = FloorRepository.GetFloorByFloorID(floor_id, db)
                 workspace_id = floor.workspace_id
                 new_payload = BookingSecondCreate.model_validate(
-                    {**Payload.model_dump(),"resource_id" : current_resource_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
+                    {**Payload.model_dump(),"user_id":current_user_id,"resource_id" : current_resource_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
                 )
                 try:
                     new_booking = Booking_Class(
+                        user_id = new_payload.user_id,
                         workspace_id=new_payload.workspace_id,
                         floor_id=new_payload.floor_id,
                         booking_date=new_payload.booking_date,

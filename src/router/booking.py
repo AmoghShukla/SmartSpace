@@ -23,3 +23,21 @@ def CreateBooking(resource_ids : list[UUID],payload : BookingCreate, db : Sessio
     except CustomException.ServiceError as e:
         logger.error(f"Error while Booking with Payload : {payload}")
         raise HTTPException(status_code=400, detail="Error While Booking!!!") from e
+
+@router.get('/get_booking_by_user_id', response_model=list[BookingCreateResponse])
+def GetBookingsByUserID(user_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching booking with User_ID : {user_id}")
+        return BookingService.GetBookingsByUserID(user_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching Booking with user_id : {user_id}")
+        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+
+@router.get('/get_booking_by_resource_id', response_model=list[BookingCreateResponse])
+def GetBookingsByResourceID(resource_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching booking with Resource_id : {resource_id}")
+        return BookingService.GetBookingsByResourceID(resource_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching Booking with resource_id : {resource_id}")
+        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e

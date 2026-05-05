@@ -47,4 +47,74 @@ class BookingService:
             return res
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e
- 
+    
+    @staticmethod
+    def GetBookingsByID(user_id, booking_id,  db):
+        try:
+            return BookingRepository.GetBookingsByID(user_id, booking_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Such Booking Exists : Service") from e
+    
+    @staticmethod
+    def GetBookingsByUserID(user_id, db):
+        try:
+            return BookingRepository.GetBookingsByUserID(user_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking for this user Exists: Service") from e
+        
+    @staticmethod
+    def GetBookingsByResourceID(resource_id, db):
+        try:
+            return BookingRepository.GetBookingsByUserID(resource_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking for this Resource Exists: Service") from e
+    
+    @staticmethod
+    def GetBookingsByWorkspaceID(workspace_id, db):
+        try:
+            return BookingRepository.GetBookingsByUserID(workspace_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking for this Workspace Exists: Service") from e
+        
+    @staticmethod
+    def GetBookingsByFloorID(floor_id, db):
+        try:
+            return BookingRepository.GetBookingsByFloorID(floor_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking for this Floor Exists : Service") from e
+    
+    @staticmethod
+    def GetallBookings(db):
+        try:
+            return BookingRepository.GetallBookings(db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking Exist") from e
+        
+    @staticmethod
+    def UpdateBooking(booking_id, updated_booking, db):
+        try:
+            booking = BookingRepository.GetBookingsByID(booking_id, db)
+            return ResourceRepository.UpdateResource(booking, updated_booking, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("Error While Updating Booking") from e
+    
+    @staticmethod
+    def Cancel_Booking(booking_id, db):
+        try:
+            booking = BookingRepository.GetBookingsByID(booking_id, db)
+            if not booking:
+                raise CustomException.ServiceError("No Such Booking Exists")
+            booking.booking_status = "CANCELLED"
+            BookingRepository.Cancel_Booking(booking, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError(f"Error while cancelling the booking ") from e
+
+    @staticmethod
+    def Hard_Delete_Booking(booking_id, db):
+        try:
+            booking = BookingRepository.GetBookingsByID(booking_id, db)
+            if not booking:
+                raise CustomException.ServiceError("No Such Booking Exists")
+            return BookingRepository.Hard_Delete_Booking(booking, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError(f"Error while deleting the Booking with booking_id {booking.booking_id}") from e

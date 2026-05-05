@@ -14,16 +14,16 @@ class ResourceCreateRegister(BaseModel):
     floor_id : UUID
 
 class UpdateResource(BaseModel):
-    resource_type : Optional[ResourceType] 
-    resource_capacity : Optional[int] 
-    requires_approval : Optional[bool] 
-    open_time : Optional[time]
-    close_time : Optional[time]
+    resource_type : Optional[ResourceType] = None
+    resource_capacity : Optional[int] = None 
+    requires_approval : Optional[bool] = None 
+    open_time : Optional[time] = None
+    close_time : Optional[time] = None
 
 
 class ResourceCreateSecond(BaseModel):
     resource_type : ResourceType = Field(...)
-    total_resource_capacity : int = Field(...)
+    resource_capacity : int = Field(...)
     requires_approval : bool = Field(...)
     open_time : time
     close_time : time
@@ -37,9 +37,7 @@ class ResourceCreateSecond(BaseModel):
 class ResourceResponse(BaseModel):
     resource_id : UUID
     resource_type : ResourceType
-    resource_capacity : int
-    is_avaialable : bool
-    requires_approval : bool
+    total_resource_capacity : int
     open_time : time
     close_time : time
     floor_id : UUID

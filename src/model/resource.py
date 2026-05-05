@@ -25,6 +25,6 @@ class Resource_Class(base):
     booking = Relationship('Booking_Class', back_populates="resource")
     floor = Relationship('Floor_Class', back_populates='resource')
 
-    __table_args__ = (CheckConstraint("resource_capacity > 0", name = "check_capacity_positive"),)
+    __table_args__ = (CheckConstraint("total_resource_capacity > 0", name = "check_capacity_positive"),)
     
     

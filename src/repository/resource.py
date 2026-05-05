@@ -41,7 +41,7 @@ class ResourceRepository:
     @staticmethod
     def Capacity_Availability(floor_id, resource_type, db):
         try:
-            floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id)).scalar_one_or_none()
+            floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id)).scalars().first()
 
             if not floor:
                 raise SQLAlchemyError("Floor not Found!!")
@@ -80,7 +80,7 @@ class ResourceRepository:
     @staticmethod
     def UpdateResource(resource, updated_resource, db):
         try:
-            update_dict = updated_resource.model_dump(exclude_unset = True)
+            update_dict = updated_resource.model_dump(exclude_none = True)
 
             for key,value in update_dict.items():
                 setattr(resource,key,value)

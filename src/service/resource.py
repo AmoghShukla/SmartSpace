@@ -5,6 +5,7 @@ from src.schema.resource import ResourceCreateSecond
 from src.repository.resource import ResourceRepository
 from src.Exceptions.Custom_Exception import CustomException
 from src.model.enum import ResourceType
+from src.model.resource import Resource_Class
 
 
 class ResourceService:
@@ -13,17 +14,22 @@ class ResourceService:
     def CreateResource(payload, db):
         try:
             total_available_capacity = payload.resource_capacity
-            print(payload)
-            print("------------------")
             new_payload = ResourceCreateSecond.model_validate(
                 {**payload.model_dump(),"available_resource_capacity": total_available_capacity}
                 )
-            print(new_payload)
-            print('-------------------')
             floor_capacity = ResourceRepository.Capacity_Availability(new_payload.floor_id, payload.resource_type, db)
             if not floor_capacity:
                 raise CustomException.ServiceError("Capacity Unavailable")
-            return ResourceRepository.CreateResource(new_payload, db)
+            resource_obj = Resource_Class(
+                resource_type=new_payload.resource_type,
+                total_resource_capacity=new_payload.resource_capacity,
+                available_resource_capacity=new_payload.available_resource_capacity,
+                requires_approval=new_payload.requires_approval,
+                open_time=new_payload.open_time,
+                close_time=new_payload.close_time,
+                floor_id=new_payload.floor_id,
+            )
+            return ResourceRepository.CreateResource(resource_obj, db)
         except CustomException.RepositoryError as e:
             print(e)
             raise CustomException.ServiceError("Error While Creating Resource : Service") from e

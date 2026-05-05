@@ -25,7 +25,7 @@ def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_
         logger.error(f"Error while Creating Resource with Payload : {payload}")
         raise HTTPException(status_code=400, detail="Error While Creating Resource!!! : Router") from e
 
-@router.get('/get_by_resource_by_id/{floor_id}', response_model=ResourceResponse)
+@router.get('/get_by_resource_by_id/{floor_id}', response_model=list[ResourceResponse])
 def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db)):
     try:
         logger.info(f"Fetching the resource with Floor ID : {floor_id}")
@@ -46,12 +46,12 @@ def GetallResource(db : Session = Depends(get_db)):
 def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db)):
     try:
         logger.info(f"Fetching the resources by resource ID : {resource_id}")
-        return ResourceService.get_resource_by_id(resource_id, db)
+        return ResourceService.GetResourceByID(resource_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while fetching the Resources By id {resource_id}")
         raise HTTPException(status_code=400, detail=f"Error while fetching the Resources By id {resource_id}")
     
-@router.get('/get_resource_by_id/{resource_id}', response_model=list[ResourceResponse])
+@router.patch('/get_resource_by_id/{resource_id}', response_model=list[ResourceResponse])
 def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db)):
     try:
         logger.info(f"Updating the resources by resource ID : {resource_id}")

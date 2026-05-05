@@ -21,4 +21,5 @@ class Floor_Class(base):
     avaialable_floor_auditorium_capacity = Column(Integer, default=3, server_default="3")
 
     resource = Relationship("Resource_Class", back_populates="floor")
+    booking = Relationship("Booking_Class", back_populates="floor")
     

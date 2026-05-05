@@ -12,6 +12,7 @@ class Booking_Class(base):
 
     booking_id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
     user_id = Column(UUID, ForeignKey('User_Table.user_id'))
+    floor_id = Column(UUID, ForeignKey("Floor_Table.floor_id"))
     workspace_id = Column(UUID, ForeignKey('Workspace_Table.workspace_id'))
     resource_id = Column(UUID, ForeignKey('Resource_Table.resource_id'))
     booking_date = Column(Date, nullable=False)
@@ -21,3 +22,4 @@ class Booking_Class(base):
 
     resource = Relationship("Resource_Class", back_populates="booking")
     user = Relationship("User_Class", back_populates="booking")
+    floor = Relationship("Floor_Class", back_populates="booking")

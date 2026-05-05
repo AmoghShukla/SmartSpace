@@ -51,7 +51,7 @@ def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db)):
         logger.error(f"Error while fetching the Resources By id {resource_id}")
         raise HTTPException(status_code=400, detail=f"Error while fetching the Resources By id {resource_id}")
     
-@router.patch('/get_resource_by_id/{resource_id}', response_model=list[ResourceResponse])
+@router.patch('/get_resource_by_id/{resource_id}', response_model=ResourceResponse)
 def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db)):
     try:
         logger.info(f"Updating the resources by resource ID : {resource_id}")

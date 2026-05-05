@@ -7,7 +7,7 @@ from src.model.enum import ResourceType
 
 class ResourceCreateRegister(BaseModel):
     resource_type : ResourceType = Field(...)
-    resource_capacity : int = Field(...)
+    total_resource_capacity : int = Field(...)
     requires_approval : bool = Field(...)
     open_time : time
     close_time : time
@@ -15,7 +15,7 @@ class ResourceCreateRegister(BaseModel):
 
 class UpdateResource(BaseModel):
     resource_type : Optional[ResourceType] = None
-    resource_capacity : Optional[int] = None 
+    total_resource_capacity : Optional[int] = None 
     requires_approval : Optional[bool] = None 
     open_time : Optional[time] = None
     close_time : Optional[time] = None
@@ -23,7 +23,7 @@ class UpdateResource(BaseModel):
 
 class ResourceCreateSecond(BaseModel):
     resource_type : ResourceType = Field(...)
-    resource_capacity : int = Field(...)
+    total_resource_capacity : int = Field(...)
     requires_approval : bool = Field(...)
     open_time : time
     close_time : time

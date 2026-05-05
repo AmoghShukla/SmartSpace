@@ -13,7 +13,7 @@ class ResourceService:
     @staticmethod
     def CreateResource(payload, db):
         try:
-            total_available_capacity = payload.resource_capacity
+            total_available_capacity = payload.total_resource_capacity
             new_payload = ResourceCreateSecond.model_validate(
                 {**payload.model_dump(),"available_resource_capacity": total_available_capacity}
                 )
@@ -58,7 +58,7 @@ class ResourceService:
     @staticmethod
     def UpdateResource(resource_id, updated_resource, db):
         try:
-            resource = ResourceRepository.get_resource_by_id(resource_id)
+            resource = ResourceRepository.get_resource_by_id(resource_id, db)
             return ResourceRepository.UpdateResource(resource, updated_resource, db)
         except CustomException.RepositoryError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
@@ -66,7 +66,7 @@ class ResourceService:
     @staticmethod
     def soft_delete_resource_by_ID(resource_id, db):
         try:
-            current_resource = ResourceRepository.get_resource_by_id(resource_id)
+            current_resource = ResourceRepository.get_resource_by_id(resource_id, db)
             if not current_resource:
                 raise CustomException.ServiceError("No Such Resource Exists")
             

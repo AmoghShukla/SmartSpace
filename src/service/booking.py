@@ -17,20 +17,28 @@ logger = get_logger(__name__)
 class BookingService:
 
     @staticmethod
-    def CreateBooking(Payload, db):
+    def CreateBooking(resource_ids, Payload, db):
         try:
             logger.info(f"Creating Booking with Payload {Payload}")
             res = []
-            for resource in Payload.resource_id:
-                resource = ResourceRepository.get_resource_by_id(Payload.resource_id, db)
+            for current_resource_id in resource_ids:
+                resource = ResourceRepository.get_resource_by_id(current_resource_id, db)
                 floor_id = resource.floor_id
                 floor = FloorRepository.GetFloorByFloorID(floor_id, db)
                 workspace_id = floor.workspace_id
                 new_payload = BookingSecondCreate.model_validate(
-                    {**Payload.model_dump(), "floor_id" : floor_id, "workspace_id" : workspace_id}
+                    {**Payload.model_dump(),"resource_id" : current_resource_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
                 )
                 try:
-                    outcome = BookingRepository.CreateBooking(Payload, db)
+                    new_booking = Booking_Class(
+                        workspace_id=new_payload.workspace_id,
+                        floor_id=new_payload.floor_id,
+                        booking_date=new_payload.booking_date,
+                        resource_id=new_payload.resource_id,
+                        start_time=new_payload.start_time,
+                        end_time=new_payload.end_time,
+                    )
+                    outcome = BookingRepository.CreateBooking(new_booking, db)
                     res.append(outcome)
                 except CustomException.RepositoryError as e:
                     raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e

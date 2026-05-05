@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 
 from src.model.enum import BookingStatus
-from src.model import Booking_Class
+from src.model.booking import Booking_Class
 from src.Exceptions.Custom_Exception import CustomException
 
 from src.utils.loggers import get_logger
@@ -18,7 +18,7 @@ class BookingRepository:
         try:
             db.add(payload)
             db.commit()
-            db.refresh()
+            db.refresh(payload)
             return payload
         except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"Error while Creating Booking with Payload : {payload}")
+            raise CustomException.RepositoryError(f"Error while Creating Booking with Payload : {payload}") from e

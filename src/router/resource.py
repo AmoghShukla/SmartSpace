@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from src.service.resource import ResourceService
 from src.schema.resource import ResourceCreateRegister, ResourceResponse, UpdateResource
 from src.database.Session import get_db
@@ -14,17 +16,63 @@ router = APIRouter(prefix="/Resource", tags=['Resource'])
 logger = get_logger(__name__)
 
 @router.post('/create_resource', response_model=ResourceResponse)
-def CreateWorkspace(payload : ResourceCreateRegister, db : Session = Depends(get_db)):
+def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_db)):
     try:
         logger.info(f"Creating resource with Payload : {payload}")
         return ResourceService.CreateResource(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating Resource with Payload : {payload}")
         raise HTTPException(status_code=400, detail="Error While Creating Resource!!!") from e
-'''
-@router.get('/get_by_floor_id/{floor_id}', response_model=ResourceResponse)
+
+@router.get('/get_by_resource_by_id/{floor_id}', response_model=ResourceResponse)
 def GetallAvailableResourcesByFloorID(floor_id,  db):
-        try:
-            return ResourceRepository.GetallAvailableResourcesByFloorID(floor_id, db)
-        except CustomException.ServiceError as e:
-            raise CustomException.RepositoryError("Error While Getting Resource") from e'''
+    try:
+        logger.info(f"Fetching the resource with Floor ID : {floor_id}")
+        return ResourceService.GetallAvailableResourcesByFloorID(floor_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching the resource with Floor ID : {floor_id}")
+        raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Floor ID's") from e
+        
+@router.get('/get_all_resources', response_model=list[ResourceResponse])
+def GetallResource(db):
+    try:
+        logger.info(f"Fetching the resources")
+        return ResourceService.GetallResource(db)
+    except CustomException.ServiceError as e:
+        raise HTTPException(status_code=400, detail=f"Eror while fetching all the Resources") from e
+
+@router.get('/get_resource_by_d/{resource_id}', response_model=ResourceResponse)
+def GetResourceByID(resource_id, db):
+    try:
+        logger.info(f"Fetching the resources by resource ID : {resource_id}")
+        return ResourceService.get_resource_by_id(resource_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while fetching the Resources By id {resource_id}")
+        raise HTTPException(status_code=400, detail=f"Error while fetching the Resources By id {resource_id}")
+    
+@router.get('/get_resource_by_id/{resource_id}', response_model=list[ResourceResponse])
+def UpdateResource(resource_id : UUID, payload : UpdateResource, db):
+    try:
+        logger.info(f"Updating the resources by resource ID : {resource_id}")
+        return ResourceService.UpdateResource(resource_id, payload, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Updating the Resources By id {resource_id}")
+        raise HTTPException(status_code=400, detail=f"Error while Updating the Resources By id {resource_id}")
+    
+@router.delete('/soft_delete/{resource_id}')
+def soft_delete_resource_by_ID(resource_id, db):
+    try:
+        logger.info(f"Deleting the resources by resource ID : {resource_id}")
+        return ResourceService.soft_delete_resource_by_ID(resource_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Deleting the Resources By id {resource_id}")
+        raise HTTPException(status_code=400, detail=f"Error while Deleting the Resources By id {resource_id}")
+
+@router.delete('/hard_delete/{resource_id}')
+def hard_delete_resource_by_ID(resource_id, db):
+    try:
+        logger.info(f"Deleting the resources by resource ID : {resource_id}")
+        return ResourceService.hard_delete_resource_by_ID(resource_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Deleting the Resources By id {resource_id}")
+        raise HTTPException(status_code=400, detail=f"Error while Deleting the Resources By id {resource_id}")

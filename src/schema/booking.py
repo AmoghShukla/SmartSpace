@@ -4,12 +4,26 @@ import uuid
 from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, Field, UUID4, ConfigDict
-from datetime import DateTime
-from sqlalchemy import DateTime
+from datetime import DateTime, date, time
 
 class BookingCreate(BaseModel):
-    user_id : UUID
-    workspace_id : UUID
     resource_id : list[UUID]
-    start_time : DateTime
-    end_time : DateTime
+    booking_date : date
+    start_time : time
+    end_time : time
+
+class BookingCreateResponse(BaseModel):
+    booking_id : UUID
+    workspace_id : UUID
+    floor_id : UUID
+    booking_date : date
+    resource_id : list[UUID]
+    start_time : time
+    end_time : time
+    booking_status : Optional[bool]
+
+class BookingUpdateResponse(BaseModel):
+    booking_date : date
+    resource_id : list[UUID]
+    start_time : time
+    end_time : time

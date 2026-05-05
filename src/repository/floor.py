@@ -31,7 +31,7 @@ class FloorRepository:
     @staticmethod
     def GetallFloorsByWorkspaceID(workspace_id, db):
         try:
-            return db.execute(select(Floor_Class).where(Floor_Class.workspace_id==workspace_id and Floor_Class.is_deleted == False)).scalars().all()
+            return db.execute(select(Floor_Class).where(Floor_Class.workspace_id==workspace_id, Floor_Class.is_available == True)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Floor Exists") from e
         
@@ -45,14 +45,14 @@ class FloorRepository:
     @staticmethod
     def GetallFloors(db):
         try:
-            return db.execute(select(Floor_Class).where(Floor_Class.is_deleted == False)).scalars().all()
+            return db.execute(select(Floor_Class).where(Floor_Class.is_available == True)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the floors") from e
 
     @staticmethod
     def SoftDeleteWorkspace(floor_id, db):
         try:
-            current_floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id==floor_id and Floor_Class.is_available == False)).scalars().first()
+            current_floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id==floor_id and Floor_Class.is_available == True)).scalars().first()
             if not current_floor:
                 raise SQLAlchemyError("Floor is not Available to use!!!")
             

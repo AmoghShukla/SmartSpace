@@ -18,7 +18,7 @@ logger = get_logger(__name__)
 def CreateUser(payload : UserCreate, db : Session = Depends(get_db)):
     try:
         logger.info(f"Creating user with Payload : {payload}")
-        UserService.CreateUser(payload, db)
+        return UserService.CreateUser(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating User with Payload : {payload}")
         raise HTTPException("Error While Creating User!!!") from e

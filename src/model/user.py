@@ -21,6 +21,5 @@ class User_Class(base):
     is_deleted = Column(Boolean, default=False)
 
     workspace = Relationship('Workspace_Class', back_populates='user')
-    resource = Relationship('Resource_Class', back_populates='user')
     booking = Relationship('Booking_Class', back_populates='user')
 

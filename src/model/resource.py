@@ -22,8 +22,8 @@ class Resource_Class(base):
     is_deleted = Column(Boolean, default=False)
     floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id'))
 
-    user = Relationship('User_Class', back_populates='resource')
     booking = Relationship('Booking_Class', back_populates="resource")
+    floor = Relationship('Floor_Class', back_populates='resource')
 
     __table_args__ = (CheckConstraint("resource_capacity > 0", name = "check_capacity_positive"),)
     

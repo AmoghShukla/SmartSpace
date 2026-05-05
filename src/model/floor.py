@@ -19,4 +19,6 @@ class Floor_Class(base):
     available_floor_meeting_room_capacity = Column(Integer, default=7, server_default="7")
     total_floor_auditorium_capacity = Column(Integer, default=7, server_default="7")
     avaialable_floor_auditorium_capacity = Column(Integer, default=3, server_default="3")
+
+    resource = Relationship("Resource_Class", back_populates="floor")
     

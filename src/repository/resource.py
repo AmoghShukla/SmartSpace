@@ -28,7 +28,8 @@ class ResourceRepository:
             return db.execute(select(Resource_Class).where(Resource_Class.floor_id==floor_id and Resource_Class.is_avaialable == True)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Resource Exists") from e
-    
+
+
     @staticmethod
     def GetallResource(db):
         try:
@@ -39,13 +40,27 @@ class ResourceRepository:
     @staticmethod
     def Capacity_Availability(floor_id, resource_type, db):
         try:
-            if resource_type == "MEETING_ROOM":
-                return db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_meeting_room_capacity > 0))
-            elif resource_type == "AUDITORIUMN":
-                return db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id, Floor_Class.floor_auditorium_capacity > 0))
-        except SQLAlchemyError as e:
-            raise CustomException.RepositoryError(f"Error while fetching all the Resources") from e
+            floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id)).scalar_one_or_none()
 
+            if not floor:
+                return None
+
+            if resource_type == "MEETING_ROOM":
+                if floor.available_floor_meeting_room_capacity > 0:
+                    floor.available_floor_meeting_room_capacity -= 1
+                    db.commit()
+                    return floor
+            elif resource_type == "AUDITORIUMN":
+                if floor.avaialable_floor_auditorium_capacity > 0:
+                    floor.avaialable_floor_auditorium_capacity -= 1
+                    db.commit()
+                    return floor
+            
+            return None
+        except SQLAlchemyError as e:
+            db.rollback() 
+            raise CustomException.RepositoryError("Error while updating capacity") from e
+    
     @staticmethod
     def get_resource_by_id(resource_id, db):
         try:

@@ -13,9 +13,11 @@ class FloorCreate(BaseModel):
 class FloorResponse(BaseModel):
     floor_id : Optional[UUID] 
     floor_number : int = Field(...)
-    floor_capacity : Optional[int] = Field(...)
-    floor_meeting_room_capacity : Optional[int] = Field(...)
-    floor_auditorium_capacity : Optional[int] = Field(...)
+    is_available : Optional[bool] 
+    total_floor_meeting_room_capacity : Optional[int] = Field(...)
+    available_floor_meeting_room_capacity : Optional[int] = Field(...)
+    total_floor_auditorium_capacity : Optional[int] = Field(...)
+    avaialable_floor_auditorium_capacity : Optional[int] = Field(...)
     workspace_id : Optional[UUID] = Field(...)
 
 class FloorUpdate(BaseModel):

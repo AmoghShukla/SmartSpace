@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from src.repository.workspace import WorkspaceRepository
 from src.repository.floor import FloorRepository
 from src.Exceptions.Custom_Exception import CustomException
-from src.schema.resource import ResourceCreate
+from src.schema.resource import ResourceCreateRegister
 
 class FloorService:
 
     @staticmethod
-    def CreateFloor(payload : ResourceCreate, db):
+    def CreateFloor(payload : ResourceCreateRegister, db):
         try:
             current_floor = FloorRepository.current_floor(payload.workspace_id, db) + 1        
             return FloorRepository.CreateFloor(payload, current_floor, db)

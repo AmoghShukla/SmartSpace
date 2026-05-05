@@ -16,6 +16,9 @@ class BookingRepository:
     @staticmethod
     def CreateBooking(payload, db):
         try:
-            pass
-        except CustomException.ServiceError as e:
-            pass
+            db.add(payload)
+            db.commit()
+            db.refresh()
+            return payload
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(f"Error while Creating Booking with Payload : {payload}")

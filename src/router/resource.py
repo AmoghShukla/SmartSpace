@@ -21,8 +21,9 @@ def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_
         logger.info(f"Creating resource with Payload : {payload}")
         return ResourceService.CreateResource(payload, db)
     except CustomException.ServiceError as e:
+        print(e)
         logger.error(f"Error while Creating Resource with Payload : {payload}")
-        raise HTTPException(status_code=400, detail="Error While Creating Resource!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Creating Resource!!! : Router") from e
 
 @router.get('/get_by_resource_by_id/{floor_id}', response_model=ResourceResponse)
 def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db)):

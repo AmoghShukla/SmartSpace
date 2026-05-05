@@ -13,13 +13,14 @@ logger = get_logger(__name__)
 class ResourceRepository:
 
     @staticmethod
-    def CreateResource(payload : Resource_Class, db):
+    def CreateResource(payload, db):
         try:            
             db.add(payload)
             db.commit()
             db.refresh(payload)
             return payload
         except SQLAlchemyError as e:
+            print(e)
             raise CustomException.RepositoryError("Error while Creating Resource : Repository") from e
     
     @staticmethod
@@ -43,14 +44,14 @@ class ResourceRepository:
             floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id)).scalar_one_or_none()
 
             if not floor:
-                return None
+                raise SQLAlchemyError("Floor not Found!!")
 
-            if resource_type == "MEETING_ROOM":
+            if resource_type.value == "MEETING_ROOM":
                 if floor.available_floor_meeting_room_capacity > 0:
                     floor.available_floor_meeting_room_capacity -= 1
                     db.commit()
                     return floor
-            elif resource_type == "AUDITORIUMN":
+            elif resource_type.value == "AUDITORIUM":
                 if floor.avaialable_floor_auditorium_capacity > 0:
                     floor.avaialable_floor_auditorium_capacity -= 1
                     db.commit()

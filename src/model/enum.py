@@ -8,7 +8,7 @@ class UserRole(Enum):
 
 class ResourceType(Enum):
     MEETING_ROOM = "MEETING_ROOM"
-    AUDITORIUMN = "AUDITORIUMN"
+    AUDITORIUM = "AUDITORIUM"
     
 class BookingStatus(str, Enum):
     PENDING = "PENDING"

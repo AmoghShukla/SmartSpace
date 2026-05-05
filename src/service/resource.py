@@ -12,16 +12,21 @@ class ResourceService:
     @staticmethod
     def CreateResource(payload, db):
         try:
-            total_available_capacity = payload.total_resource_capacity
+            total_available_capacity = payload.resource_capacity
+            print(payload)
+            print("------------------")
             new_payload = ResourceCreateSecond.model_validate(
                 {**payload.model_dump(),"available_resource_capacity": total_available_capacity}
                 )
-            resource_capacity = ResourceRepository.Capacity_Availability(new_payload.floor_id, payload.resource_type, db)
-            if not resource_capacity:
+            print(new_payload)
+            print('-------------------')
+            floor_capacity = ResourceRepository.Capacity_Availability(new_payload.floor_id, payload.resource_type, db)
+            if not floor_capacity:
                 raise CustomException.ServiceError("Capacity Unavailable")
             return ResourceRepository.CreateResource(new_payload, db)
         except CustomException.RepositoryError as e:
-            raise CustomException.ServiceError("Error While Creating Resource") from e
+            print(e)
+            raise CustomException.ServiceError("Error While Creating Resource : Service") from e
   
     @staticmethod
     def GetallAvailableResourcesByFloorID(floor_id,  db):

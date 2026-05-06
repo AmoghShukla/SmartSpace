@@ -15,14 +15,13 @@ class Resource_Class(base):
     resource_type = Column(SQLAlchemyEnum(ResourceType))
     total_resource_capacity = Column(Integer, nullable=False)
     available_resource_capacity = Column(Integer, nullable=False)
-    is_avaialable = Column(Boolean, default=True)
     requires_approval = Column(Boolean, default=True)
     open_time = Column(Time, nullable=False, default=time(6, 30), server_default="06:30:00")
     close_time = Column(Time, nullable=False, default=time(22, 30), server_default="22:30:00")
     is_deleted = Column(Boolean, default=False)
     floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id'))
 
-    booking = Relationship('Booking_Class', back_populates="resource")
+    booking = Relationship('BookingResource_Class', back_populates="resource")
     floor = Relationship('Floor_Class', back_populates='resource')
 
     __table_args__ = (CheckConstraint("total_resource_capacity > 0", name = "check_capacity_positive"),)

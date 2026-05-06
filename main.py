@@ -13,6 +13,12 @@ app = FastAPI(title="SmartSpace : Workspace Booking & Resource Management API", 
 
 logger = get_logger(__name__)
 
+@app.get('/')
+def health():
+    return {
+        'message' : 'SmartSpace Application is up and running!!!'
+    }
+
 for router in all_router:
     app.include_router(router)
 
@@ -42,10 +48,3 @@ def seed_admin():
 
     finally:
         db.close()
-    
-
-@app.get('/')
-def home():
-    return {
-        'message' : 'SmartSpace Application is up and running!!!'
-    }

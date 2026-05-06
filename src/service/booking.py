@@ -1,6 +1,9 @@
+from uuid import UUID
+
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from src.model.enum import BookingStatus
 from src.core.security import AuthSecurity
 from src.model.booking import Booking_Class 
 from src.schema.booking import BookingSecondCreate
@@ -89,6 +92,19 @@ class BookingService:
             return BookingRepository.GetallBookings(db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("No Booking Exist") from e
+        
+    @staticmethod
+    def approve_booking(booking_id : UUID, updated_by : UUID, db : Session):
+        booking = BookingRepository.GetBookingsByID(booking_id, db)
+        if not booking:
+            raise CustomException.NotFoundError(message = "Booking not found")
+        
+        if booking.booking_status != BookingStatus.PENDING:
+            raise CustomException.BadRequestException( message = "Booking Already Updated")
+        
+        booking_resources = BookingRepository.get_booking_resource(booking_id, db)
+        if not booking_resources:
+            raise CustomException.BadRequestException(message = "No Resources Attched to the Following Booking")
         
     @staticmethod
     def UpdateBooking(booking_id, updated_booking, db):

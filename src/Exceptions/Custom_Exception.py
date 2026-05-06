@@ -8,3 +8,6 @@ class CustomException:
 
     class NotFoundError(RepositoryError):
         pass
+
+    class BadRequestException(ServiceError):
+        pass

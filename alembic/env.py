@@ -7,6 +7,7 @@ from src.model.floor import Floor_Class
 from src.model.workspace import Workspace_Class
 from src.model.resource import Resource_Class
 from src.model.booking import Booking_Class
+from src.model.bookingresource import BookingResource_Class
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

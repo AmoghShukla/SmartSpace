@@ -3,6 +3,7 @@ from datetime import UTC, datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 
+from src.model.bookingresource import BookingResource_Class
 from src.model.enum import BookingStatus
 from src.model.booking import Booking_Class
 from src.Exceptions.Custom_Exception import CustomException
@@ -65,7 +66,40 @@ class BookingRepository:
             return db.execute(select(Booking_Class)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Booking for this Exist") from e
+
+    @staticmethod
+    def check_booking_overlap(resource_id, requested_start, requested_end, db):
+        try:
+            return db.execute(select(Booking_Class).join(BookingResource_Class).where(BookingResource_Class.resource_id==resource_id, Booking_Class.booking_status=="APPROVED", Booking_Class.start_time < requested_end, Booking_Class.end_time > requested_start)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError('Error : Repo')
         
+    @staticmethod
+    def approve_booking(approver_id, booking, db):
+        booking.booking_status = BookingStatus.APPROVED
+        booking.updated_by = approver_id
+
+        db.commit()
+        db.refresh(booking)
+
+        return booking
+    
+    @staticmethod
+    def reject_booking(rejector_id, booking, db):
+        booking.booking_status = BookingStatus.REJECTED
+        booking.updated_by = rejector_id
+
+        db.commit()
+        db.refresh(booking)
+        
+        return booking
+    
+    @staticmethod
+    def get_booking_resource(booking_id, db):
+        try:
+            return db.execute(select(BookingResource_Class)).where(BookingResource_Class.booking_id==booking_id).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
     @staticmethod
     def UpdateBooking(booking, updated_booking, db):
         try:

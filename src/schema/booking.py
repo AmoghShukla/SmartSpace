@@ -13,17 +13,19 @@ class BookingCreate(BaseModel):
 
 class BookingSecondCreate(BaseModel):
     user_id : UUID
-    workspace_id : UUID
-    floor_id : UUID
     start_time : datetime
     end_time : datetime
+
+class BookingThirdCreate(BaseModel):
+    booking_id : UUID
+    resource_id : UUID
+    workspace_id : UUID
+    floor_id : UUID
 
 class BookingCreateResponse(BaseModel):
     user_id : UUID
     booking_id : UUID
-    workspace_id : UUID
-    floor_id : UUID
-    resource_id : UUID
+    resource_ids : list[UUID]
     start_time : datetime
     end_time : datetime
     booking_status : Optional[BookingStatus]

@@ -18,20 +18,18 @@ class BookingRepository:
     def CreateBooking(payload, db):
         try:
             db.add(payload)
+            db.commit()
+            db.refresh(payload)
             return payload
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Error while Creating Booking with Payload : {payload}") from e
     
     @staticmethod
-    def CreateBookingResource(payload, db):
+    def PreBooking(payload, db):
         db.add(payload)
         db.flush()
-        # print("flush : ",payload)
-        db.refresh(payload)
-        # print("refresh : ",payload)
         return payload
   
-
     @staticmethod
     def GetBookingsByID(user_id, booking_id,  db):
         try:
@@ -39,6 +37,13 @@ class BookingRepository:
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Booking Exists") from e
     
+    @staticmethod
+    def GetBookingsByBookingID(booking_id,  db):
+        try:
+            return db.execute(select(Booking_Class).where(Booking_Class.booking_id==booking_id)).scalars().first()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError("No Such Booking Exists") from e
+
     @staticmethod
     def GetBookingsByUserID(user_id, db):
         try:
@@ -104,7 +109,7 @@ class BookingRepository:
     @staticmethod
     def get_booking_resource(booking_id, db):
         try:
-            return db.execute(select(BookingResource_Class)).where(BookingResource_Class.booking_id==booking_id).scalars().all()
+            return db.execute(select(BookingResource_Class).where(BookingResource_Class.booking_id==booking_id)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
     @staticmethod

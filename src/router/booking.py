@@ -15,7 +15,7 @@ from fastapi import APIRouter, HTTPException, Depends
 router = APIRouter(prefix="/Booking", tags=['Booking'])
 logger = get_logger(__name__)
 
-@router.post('/create_booking', response_model=list[BookingCreateResponse])
+@router.post('/create_booking', response_model=BookingCreateResponse)
 def CreateBooking(resource_ids : list[UUID],payload : BookingCreate, db : Session = Depends(get_db), current_user = Depends(get_current_user), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Creating booking with Payload : {payload}")

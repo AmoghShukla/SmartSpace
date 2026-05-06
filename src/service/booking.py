@@ -25,46 +25,42 @@ class BookingService:
         try:
             current_user_id = user["user_id"]
             logger.info(f"Creating Booking with Payload {Payload}")
-            res = []
+
+            new_booking = Booking_Class(
+                user_id = current_user_id,
+                start_time=Payload.start_time,
+                end_time=Payload.end_time
+            )
+            BookingRepository.PreBooking(new_booking, db)
+
             for current_resource_id in resource_ids:
                 resource = ResourceRepository.get_resource_by_id(current_resource_id, db)
-                floor_id = resource.floor_id
-                floor = FloorRepository.GetFloorByFloorID(floor_id, db)
+                floor = FloorRepository.GetFloorByFloorID(resource.floor_id, db)
                 workspace_id = floor.workspace_id
-                new_payload = BookingSecondCreate.model_validate(
-                    {**Payload.model_dump(),"user_id":current_user_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
+                
+                booking_resource = BookingResource_Class(
+                    booking_id = new_booking.booking_id,
+                    resource_id = current_resource_id,
+                    workspace_id = workspace_id,
+                    floor_id = resource.floor_id   
                 )
-                try:
-                    new_booking = Booking_Class(
-                        user_id = new_payload.user_id,
-                        workspace_id=new_payload.workspace_id,
-                        floor_id=new_payload.floor_id,
-                        start_time=new_payload.start_time,
-                        end_time=new_payload.end_time
+                BookingRepository.CreateBooking(booking_resource, db)
 
-                    )
-                    outcome = BookingRepository.PreBooking(new_booking, db)
-                    res.append(outcome)
-                    booking_resource = BookingResource_Class(
-                        booking_id = outcome.booking_id,
-                        resource_id = current_resource_id
-                    )
-                    BookingRepository.CreateBooking(booking_resource, db)
-                except CustomException.RepositoryError as e:
-                    raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e
+            booking = BookingRepository.GetBookingsByBookingID(new_booking.booking_id, db)
             response = BookingCreateResponse(
                 user_id = new_booking.user_id,
-                booking_id = outcome.booking_id,
-                workspace_id = new_booking.workspace_id,
-                floor_id = new_booking.floor_id,
+                booking_id = new_booking.booking_id,
                 resource_ids=resource_ids,
                 start_time=new_booking.start_time,
                 end_time=new_booking.end_time,
                 booking_status=BookingStatus.PENDING                
             )
+            return response
         except CustomException.RepositoryError as e:
+            db.rollback()
             raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e
-    
+       
+
     @staticmethod
     def GetBookingsByID(user_id, booking_id,  db):
         try:
@@ -109,22 +105,23 @@ class BookingService:
         
     @staticmethod
     def approve_booking(booking_id : UUID, updated_by : UUID, db : Session):
-        booking = BookingRepository.GetBookingsByID(booking_id, db)
+        booking = BookingRepository.GetBookingsByBookingID(booking_id, db)
+
         if not booking:
             raise CustomException.NotFoundError(message = "Booking not found")
         
         if booking.booking_status != BookingStatus.PENDING:
-            raise CustomException.BadRequestException( message = "Booking Already Updated")
+            raise CustomException.ServiceError("Booking Already Updated")
         
         booking_resources = BookingRepository.get_booking_resource(booking_id, db)
         if not booking_resources:
-            raise CustomException.BadRequestException(message = "No Resources Attched to the Following Booking")
+            raise CustomException.ServiceError("No Resources Attched to the Following Booking")
         
         for resource in booking_resources:
-            overlap = BookingRepository.check_booking_overlap(db, resource_id=resource.resource_id, requested_start=booking.start_time, requested_end=booking.end_time)
+            overlap = BookingRepository.check_booking_overlap(resource_id=resource.resource_id, requested_start=booking.start_time, requested_end=booking.end_time, db=db)
             if overlap:
                 BookingRepository.reject_booking(rejector_id=updated_by, booking=booking, db=db)
-                raise CustomException.BadRequestException(message=f"Resource {booking.resource_id} is already Booked")
+                raise CustomException.ServiceError(f"Resource {resource.resource_id} is already Booked")
             approved_booking = BookingRepository.approve_booking(updated_by, booking, db)
         return {
             'message' : "Booking Approved"

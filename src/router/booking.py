@@ -41,3 +41,57 @@ def GetBookingsByResourceID(resource_id : UUID, db : Session = Depends(get_db)):
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching Booking with resource_id : {resource_id}")
         raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+    
+@router.get('/get_booking_by_workspace_id', response_model=list[BookingCreateResponse])
+def GetBookingsByWorkspaceID(workspace_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching booking with Workspace_id : {workspace_id}")
+        return BookingService.GetBookingsByWorkspaceID(workspace_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching Booking with workspace_id : {workspace_id}")
+        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+    
+@router.get('/get_booking_by_floor_id', response_model=list[BookingCreateResponse])
+def GetBookingsByFloorID(floor_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching booking with Floor id : {floor_id}")
+        return BookingService.GetBookingsByFloorID(floor_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching Booking with Floor_ID : {floor_id}")
+        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+    
+@router.get('/get_all_bookings', response_model=list[BookingCreateResponse])
+def GetAllBookings(db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Fetching all bookings ")
+        return BookingService.GetAllBookings(db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching all the Booking ")
+        raise HTTPException(status_code=400, detail="Error While Fetching all Bookings!!!") from e
+
+@router.patch('/update_Booking', response_model=BookingCreateResponse)
+def UpdateBooking(booking_id : UUID, payload : BookingUpdateResponse, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Updating booking with Payload : {payload}")
+        return BookingService.UpdateBooking(booking_id, payload, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Updating Booking with Booking_ID : {booking_id}")
+        raise HTTPException(status_code=400, detail="Error While Updating Booking!!!") from e
+    
+@router.delete('/Cancel_Booking')
+def CancelBooking(booking_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Cancelling the Booking by Booking ID : {booking_id}")
+        return BookingService.Cancel_Booking(booking_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Cancelling the Booking By id {booking_id}")
+        raise HTTPException(status_code=400, detail=f"Error while Cancelling the Booking By id {booking_id}")
+    
+@router.delete('/Delete_Booking')
+def Hard_Delete_Booking(booking_id : UUID, db : Session = Depends(get_db)):
+    try:
+        logger.info(f"Delete the Booking by Booking ID : {booking_id}")
+        return BookingService.Hard_Delete_Booking(booking_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Deleting the Booking By id {booking_id}")
+        raise HTTPException(status_code=400, detail=f"Error while CancellinDeletingg the Booking By id {booking_id}")

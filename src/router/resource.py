@@ -16,7 +16,7 @@ router = APIRouter(prefix="/Resource", tags=['Resource'])
 logger = get_logger(__name__)
 
 @router.post('/create_resource', response_model=ResourceResponse)
-def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_db)):
+def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Creating resource with Payload : {payload}")
         return ResourceService.CreateResource(payload, db)
@@ -26,7 +26,7 @@ def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_
         raise HTTPException(status_code=400, detail="Error While Creating Resource!!! : Router") from e
 
 @router.get('/get_by_resource_by_id/{floor_id}', response_model=list[ResourceResponse])
-def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db)):
+def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Fetching the resource with Floor ID : {floor_id}")
         return ResourceService.GetallAvailableResourcesByFloorID(floor_id, db)
@@ -35,7 +35,7 @@ def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db))
         raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Floor ID's") from e
         
 @router.get('/get_all_resources', response_model=list[ResourceResponse])
-def GetallResource(db : Session = Depends(get_db)):
+def GetallResource(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching the resources")
         return ResourceService.GetallResource(db)
@@ -43,7 +43,7 @@ def GetallResource(db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Eror while fetching all the Resources") from e
 
 @router.get('/get_resource_by_d/{resource_id}', response_model=ResourceResponse)
-def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db)):
+def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         logger.info(f"Fetching the resources by resource ID : {resource_id}")
         return ResourceService.GetResourceByID(resource_id, db)
@@ -52,7 +52,7 @@ def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Error while fetching the Resources By id {resource_id}")
     
 @router.patch('/get_resource_by_id/{resource_id}', response_model=ResourceResponse)
-def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db)):
+def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Updating the resources by resource ID : {resource_id}")
         return ResourceService.UpdateResource(resource_id, payload, db)
@@ -61,7 +61,7 @@ def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = 
         raise HTTPException(status_code=400, detail=f"Error while Updating the Resources By id {resource_id}")
     
 @router.delete('/soft_delete/{resource_id}')
-def soft_delete_resource_by_ID(resource_id : UUID, db : Session = Depends(get_db)):
+def soft_delete_resource_by_ID(resource_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         logger.info(f"Deleting the resources by resource ID : {resource_id}")
         return ResourceService.soft_delete_resource_by_ID(resource_id, db)
@@ -70,7 +70,7 @@ def soft_delete_resource_by_ID(resource_id : UUID, db : Session = Depends(get_db
         raise HTTPException(status_code=400, detail=f"Error while Deleting the Resources By id {resource_id}")
 
 @router.delete('/hard_delete/{resource_id}')
-def hard_delete_resource_by_ID(resource_id : UUID, db : Session = Depends(get_db)):
+def hard_delete_resource_by_ID(resource_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Deleting the resources by resource ID : {resource_id}")
         return ResourceService.hard_delete_resource_by_ID(resource_id, db)

@@ -106,6 +106,18 @@ class BookingService:
         if not booking_resources:
             raise CustomException.BadRequestException(message = "No Resources Attched to the Following Booking")
         
+        for resource in booking_resources:
+            overlap = BookingRepository.check_booking_overlap(db, resource_id=resource.resource_id, requested_start=booking.start_time, requested_end=booking.end_time)
+            if overlap:
+                BookingRepository.reject_booking(rejector_id=updated_by, booking=booking, db=db)
+                raise CustomException.BadRequestException(message=f"Resource {booking.resource_id} is already Booked")
+            approved_booking = BookingRepository.approve_booking(updated_by, booking, db)
+        return {
+            'message' : "Booking Approved"
+        }
+
+
+
     @staticmethod
     def UpdateBooking(booking_id, updated_booking, db):
         try:

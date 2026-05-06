@@ -16,7 +16,7 @@ router = APIRouter(prefix="/Floor", tags=['Floor'])
 logger = get_logger(__name__)
 
 @router.post('/create_floor', response_model=FloorResponse)
-def CreateFloor(payload : FloorCreate, db : Session = Depends(get_db)):
+def CreateFloor(payload : FloorCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Creating floor at workspace with workspace_id : {payload.workspace_id}, Floor_Auditorium_Capacity : {payload.floor_auditorium_capacity}, Floor_Meeting_Room_Capacity : {payload.floor_meeting_room_capacity}")
         return FloorService.CreateFloor(payload, db)
@@ -26,7 +26,7 @@ def CreateFloor(payload : FloorCreate, db : Session = Depends(get_db)):
 
 
 @router.get('/get_by_floor_id/{Floor_id}', response_model=FloorResponse)
-def GetFloorsByFloorID(floor_id : UUID, db : Session = Depends(get_db)):
+def GetFloorsByFloorID(floor_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching floor : {floor_id} ")
         return FloorService.GetFloorByFloorID(floor_id, db)
@@ -35,7 +35,7 @@ def GetFloorsByFloorID(floor_id : UUID, db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Error While fetching Floor ") from e
 
 @router.get('/get_all_by_workspace_id/{workspace_id}', response_model=list[FloorResponse])
-def GetAllFloorsWithWorkspaceID(workspace_id : UUID,db : Session = Depends(get_db)):
+def GetAllFloorsWithWorkspaceID(workspace_id : UUID,db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching all floors with workspace id : {workspace_id}")
         return FloorService.GetAllFloorsByWorkspaceID(workspace_id, db)
@@ -45,7 +45,7 @@ def GetAllFloorsWithWorkspaceID(workspace_id : UUID,db : Session = Depends(get_d
 
 
 @router.get('/getall', response_model=list[FloorResponse])
-def GetAllFloors(db : Session = Depends(get_db)):
+def GetAllFloors(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching all floors across workspaces")
         return FloorService.GetAllFloors(db)
@@ -55,7 +55,7 @@ def GetAllFloors(db : Session = Depends(get_db)):
 
 
 @router.patch('/update_user', response_model=FloorResponse)
-def UpdateSelfProfile(payload : FloorUpdate, current_user = Depends(get_current_user), db : Session = Depends(get_db)):
+def UpdateFloor(payload : FloorUpdate, current_user = Depends(get_current_user), db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         logger.info(f"Updating floor with Payload : {payload}")
         return FloorService.UpdateFloor(payload, db)
@@ -63,18 +63,8 @@ def UpdateSelfProfile(payload : FloorUpdate, current_user = Depends(get_current_
         logger.error(f"Error while Updating Floor with Payload : {payload}")
         raise HTTPException(status_code=400,detail="Error While Updating Floor!!!") from e
 
-@router.get('/all', response_model=list[FloorResponse])
-def GetAllFloors(db : Session = Depends(get_db)):
-    try:
-        logger.info(f"Fetching floor at all workspaces ")
-        return FloorService.GetAllFloors(db)
-    except CustomException.ServiceError as e:
-        logger.error(f"Error while Fetching floor ")
-        raise HTTPException(status_code=400, detail="Error While fetching Floor!!!") from e
-
-
 @router.delete('/Make_unavailable', response_model=FloorResponse)
-def MakeFloorUnavailable(floor_id : UUID, db : Session = Depends(get_db)):
+def MakeFloorUnavailable(floor_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         logger.info(f"Making the Floor Unavailable")
         return FloorService.MakeFloorUnavailable(floor_id, db)

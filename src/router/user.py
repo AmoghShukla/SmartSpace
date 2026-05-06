@@ -24,7 +24,7 @@ def CreateUser(payload : UserCreate, db : Session = Depends(get_db)):
         raise HTTPException("Error While Creating User!!!") from e
     
 @router.post('/create_member', response_model=UserResponse)
-def CreateMember(payload : MemberCreate, db : Session = Depends(get_db)):
+def CreateMember(payload : MemberCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Creating member with Payload : {payload}")
         UserService.CreateUser(payload, db)
@@ -33,7 +33,7 @@ def CreateMember(payload : MemberCreate, db : Session = Depends(get_db)):
         raise HTTPException("Error While Creating member!!!") from e
     
 @router.post('/create_resource_manager', response_model=UserResponse)
-def CreateResourceManager(payload : ResourceManagerCreate, db : Session = Depends(get_db)):
+def CreateResourceManager(payload : ResourceManagerCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Creating resource manager with Payload : {payload}")
         UserService.CreateUser(payload, db)

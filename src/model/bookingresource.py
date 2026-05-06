@@ -14,5 +14,5 @@ class BookingResource_Class(base):
     booking_id = Column(UUID, ForeignKey("Booking_Table.booking_id", ondelete="CASCADE"))
     resource_id = Column(UUID, ForeignKey("Resource_Table.resource_id", ondelete="CASCADE"))
 
-    resource = Relationship("Booking_Class", back_populates="booking")
-    booking = Relationship("Resource_Class", back_populates="booking")
+    resource = Relationship("Resource_Class", back_populates="booking")
+    booking = Relationship("Booking_Class", back_populates="resource")

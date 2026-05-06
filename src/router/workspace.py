@@ -14,7 +14,7 @@ router = APIRouter(prefix="/Workspace", tags=['Workspace'])
 logger = get_logger(__name__)
 
 @router.post('/create_workspace', response_model=WorkspaceResponse)
-def CreateWorkspace(payload : WorkspaceCreate, db : Session = Depends(get_db)):
+def CreateWorkspace(payload : WorkspaceCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Creating workspace with Payload : {payload}")
         return WorkspaceService.CreateWorkspace(payload, db)
@@ -23,7 +23,7 @@ def CreateWorkspace(payload : WorkspaceCreate, db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Error While Creating workspace!!!") from e
 
 @router.get('/get_workspace_by_name', response_model=WorkspaceResponse)
-def GetWorkspaceByName(workspace_name : str, db : Session = Depends(get_db)):
+def GetWorkspaceByName(workspace_name : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting workspace with Name : {workspace_name}")
         return WorkspaceService.GetWorkspaceByName(workspace_name, db)
@@ -32,7 +32,7 @@ def GetWorkspaceByName(workspace_name : str, db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
     
 @router.get('/get_workspace_by_location', response_model=WorkspaceResponse)
-def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_db)):
+def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting workspace with location : {workspace_location}")
         return WorkspaceService.GetWorkspaceByLocation(workspace_location, db)
@@ -41,7 +41,7 @@ def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_
         raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
 
 @router.get('/get_workspace_by_id', response_model=WorkspaceResponse)
-def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db)):
+def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting workspace with id : {workspace_id}")
         return WorkspaceService.GetWorkspaceByLocation(workspace_id, db)
@@ -51,7 +51,7 @@ def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db)):
         
 
 @router.get('/get_all_workspaces', response_model=list[WorkspaceResponse])
-def GetAllWorkSpaces(db : Session = Depends(get_db)):
+def GetAllWorkSpaces(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting all workspaces")
         return WorkspaceService.GetAllWorkspaces(db)
@@ -60,7 +60,7 @@ def GetAllWorkSpaces(db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Error While Getting workspaces!!!") from e
     
 @router.delete('/Soft_Delete', response_model=WorkspaceResponse)
-def Delete(workspace_id : str, db : Session = Depends(get_db)):
+def Delete(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Deleting Workspace with id : {workspace_id}")
         return WorkspaceService.SoftDeleteWorkspace(workspace_id, db)
@@ -69,7 +69,7 @@ def Delete(workspace_id : str, db : Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=f"Error While Deleting Workspace with id : {workspace_id}!!!") from e
     
 @router.delete('/Hard_Delete', response_model=WorkspaceResponse)
-def Hard_Delete(workspace_id : str, db : Session = Depends(get_db)):
+def Hard_Delete(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Deleting Workspace with id : {workspace_id}")
         return WorkspaceService.HardDeleteWorkspace(workspace_id, db)

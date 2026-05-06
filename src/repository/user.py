@@ -65,6 +65,15 @@ class UserRepository:
             raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
     
     @staticmethod
+    def GetCurrentUserByEmail(user_email, db):
+        try:
+            logger.info(f"Fetching User with email : {user_email}")
+            return db.execute(select(User_Class).where(User_Class.user_email==user_email)).scalars().first()
+        except SQLAlchemyError as e:
+            logger.error(f"Error while Fetching User Email : {user_email} {e}")
+            raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
+    
+    @staticmethod
     def GetUserByRole(user_role, db):
         try:
             logger.info(f"Fetching User By Role : {user_role}")

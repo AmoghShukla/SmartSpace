@@ -12,7 +12,7 @@ class AuthService:
     @staticmethod
     def RegisterUser(payload, db):
         try:
-            user = UserRepository.GetUserByEmail(payload.user_email, db)
+            user = UserRepository.GetCurrentUserByEmail(payload.user_email, db)
 
             if user:
                 raise CustomException.ServiceError("User Already Exists!!")

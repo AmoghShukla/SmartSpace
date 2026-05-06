@@ -19,7 +19,7 @@ class Resource_Class(base):
     open_time = Column(Time, nullable=False, default=time(6, 30), server_default="06:30:00")
     close_time = Column(Time, nullable=False, default=time(22, 30), server_default="22:30:00")
     is_deleted = Column(Boolean, default=False)
-    floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id'))
+    floor_id = Column(UUID, ForeignKey('Floor_Table.floor_id', ondelete="CASCADE"))
 
     booking = Relationship('BookingResource_Class', back_populates="resource")
     floor = Relationship('Floor_Class', back_populates='resource')

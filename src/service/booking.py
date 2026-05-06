@@ -3,10 +3,11 @@ from uuid import UUID
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from src.model.bookingresource import BookingResource_Class
 from src.model.enum import BookingStatus
 from src.core.security import AuthSecurity
 from src.model.booking import Booking_Class 
-from src.schema.booking import BookingSecondCreate
+from src.schema.booking import BookingCreateResponse, BookingSecondCreate
 from src.repository.floor import FloorRepository
 from src.repository.booking import BookingRepository 
 from src.repository.resource import ResourceRepository
@@ -31,23 +32,36 @@ class BookingService:
                 floor = FloorRepository.GetFloorByFloorID(floor_id, db)
                 workspace_id = floor.workspace_id
                 new_payload = BookingSecondCreate.model_validate(
-                    {**Payload.model_dump(),"user_id":current_user_id,"resource_id" : current_resource_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
+                    {**Payload.model_dump(),"user_id":current_user_id, "floor_id" : floor_id, "workspace_id" : workspace_id}
                 )
                 try:
                     new_booking = Booking_Class(
                         user_id = new_payload.user_id,
                         workspace_id=new_payload.workspace_id,
                         floor_id=new_payload.floor_id,
-                        booking_date=new_payload.booking_date,
-                        resource_id=new_payload.resource_id,
                         start_time=new_payload.start_time,
-                        end_time=new_payload.end_time,
+                        end_time=new_payload.end_time
+
                     )
-                    outcome = BookingRepository.CreateBooking(new_booking, db)
+                    outcome = BookingRepository.PreBooking(new_booking, db)
                     res.append(outcome)
+                    booking_resource = BookingResource_Class(
+                        booking_id = outcome.booking_id,
+                        resource_id = current_resource_id
+                    )
+                    BookingRepository.CreateBooking(booking_resource, db)
                 except CustomException.RepositoryError as e:
                     raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e
-            return res
+            response = BookingCreateResponse(
+                user_id = new_booking.user_id,
+                booking_id = outcome.booking_id,
+                workspace_id = new_booking.workspace_id,
+                floor_id = new_booking.floor_id,
+                resource_ids=resource_ids,
+                start_time=new_booking.start_time,
+                end_time=new_booking.end_time,
+                booking_status=BookingStatus.PENDING                
+            )
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError(f"Error Encountered while creating booking with payload {Payload}") from e
     

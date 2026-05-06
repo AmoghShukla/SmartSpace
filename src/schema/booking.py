@@ -4,36 +4,31 @@ import uuid
 from uuid import UUID
 
 from pydantic import BaseModel
-from datetime import date, time
+from datetime import date, time, datetime
 from src.model.enum import BookingStatus
 
 class BookingCreate(BaseModel):
-    booking_date : date
-    start_time : time
-    end_time : time
+    start_time : datetime
+    end_time : datetime
 
 class BookingSecondCreate(BaseModel):
     user_id : UUID
     workspace_id : UUID
     floor_id : UUID
-    booking_date : date
-    resource_id : UUID
-    start_time : time
-    end_time : time
+    start_time : datetime
+    end_time : datetime
 
 class BookingCreateResponse(BaseModel):
     user_id : UUID
     booking_id : UUID
     workspace_id : UUID
     floor_id : UUID
-    booking_date : date
     resource_id : UUID
-    start_time : time
-    end_time : time
+    start_time : datetime
+    end_time : datetime
     booking_status : Optional[BookingStatus]
 
 class BookingUpdateResponse(BaseModel):
-    booking_date : date
     resource_id : list[UUID]
-    start_time : time
-    end_time : time
+    start_time : datetime
+    end_time : datetime

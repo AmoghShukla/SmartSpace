@@ -7,7 +7,7 @@ from src.model.enum import UserRole
 
 class UserCreate(BaseModel):
     user_name : str = Field(...)
-    user_email : str = Field(...)
+    user_email : EmailStr = Field(...)
     user_password : str = Field(...)
     user_contact_no : str = Field(..., min_length=10, max_length=10)
 

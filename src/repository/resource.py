@@ -29,8 +29,15 @@ class ResourceRepository:
             return db.execute(select(Resource_Class).where(Resource_Class.floor_id==floor_id and Resource_Class.is_avaialable == True)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Resource Exists") from e
+    
+    @staticmethod
+    def GetallAvailableResourcesByWorkspaceID(workspace_id,  db):
+        try:
+            return db.execute(select(Resource_Class).join(Floor_Class).where(Floor_Class.workspace_id==workspace_id and Resource_Class.is_avaialable == True)).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(message = "No Such Resource Exists")
 
-
+    
     @staticmethod
     def GetallResource(db):
         try:

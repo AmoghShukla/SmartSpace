@@ -18,13 +18,20 @@ class BookingRepository:
     def CreateBooking(payload, db):
         try:
             db.add(payload)
-            db.commit()
-            db.refresh(payload)
             return payload
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Error while Creating Booking with Payload : {payload}") from e
-        
     
+    @staticmethod
+    def CreateBookingResource(payload, db):
+        db.add(payload)
+        db.flush()
+        # print("flush : ",payload)
+        db.refresh(payload)
+        # print("refresh : ",payload)
+        return payload
+  
+
     @staticmethod
     def GetBookingsByID(user_id, booking_id,  db):
         try:

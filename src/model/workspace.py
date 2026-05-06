@@ -20,4 +20,5 @@ class Workspace_Class(base):
     is_deleted = Column(Boolean, default=False)
 
     user = Relationship('User_Class', back_populates='workspace')
-    booking = Relationship('Booking_Class', back_populates='workspace')
+    booking = Relationship('Booking_Class', back_populates='workspace',cascade="all, delete-orphan")
+    floor = Relationship('Floor_Class', back_populates="workspace",cascade="all, delete-orphan")

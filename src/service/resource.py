@@ -22,7 +22,7 @@ class ResourceService:
                 raise CustomException.ServiceError("Capacity Unavailable")
             resource_obj = Resource_Class(
                 resource_type=new_payload.resource_type,
-                total_resource_capacity=new_payload.resource_capacity,
+                total_resource_capacity=new_payload.total_resource_capacity,
                 available_resource_capacity=new_payload.available_resource_capacity,
                 requires_approval=new_payload.requires_approval,
                 open_time=new_payload.open_time,
@@ -41,6 +41,13 @@ class ResourceService:
         except CustomException.ServiceError as e:
             raise CustomException.RepositoryError("Error While Getting Resource") from e
 
+    @staticmethod
+    def GetallAvailableResourcesByWorkspaceID(workspace_id,  db):
+        try:
+            return ResourceRepository.GetallAvailableResourcesByWorkspaceID(workspace_id, db)
+        except CustomException.ServiceError as e:
+            raise CustomException.RepositoryError(message = "Error While Getting Resources by workspace id")
+    
     @staticmethod
     def GetallResource(db):
         try:

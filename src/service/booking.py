@@ -108,6 +108,7 @@ class BookingService:
         booking = BookingRepository.GetBookingsByBookingID(booking_id, db)
 
         if not booking:
+            logger.debug("Booking not found")
             raise CustomException.NotFoundError(message = "Booking not found")
         
         if booking.booking_status != BookingStatus.PENDING:
@@ -140,7 +141,7 @@ class BookingService:
     @staticmethod
     def Cancel_Booking(booking_id, db):
         try:
-            booking = BookingRepository.GetBookingsByID(booking_id, db)
+            booking = BookingRepository.GetBookingsByBookingID(booking_id, db)
             if not booking:
                 raise CustomException.ServiceError("No Such Booking Exists")
             booking.booking_status = "CANCELLED"

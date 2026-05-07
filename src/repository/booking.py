@@ -131,8 +131,8 @@ class BookingRepository:
     def Cancel_Booking(booking, db):
         try:
             db.commit()
-            db.refresh()
-            return "Booking Cancelled Successfully!!!"
+            db.refresh(booking)
+            return {"Booking Cancelled Successfully!!!"}
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Error while cancelling the booking ") from e
 

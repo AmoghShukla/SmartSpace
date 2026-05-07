@@ -75,8 +75,6 @@ def approve_booking(booking_id : UUID, current_user = Depends(get_current_user),
         return BookingService.approve_booking(booking_id, current_user["user_id"], db)
     except CustomException.ServiceError as e:
         raise HTTPException(status_code=405, detail=e)
-    except CustomException.BadRequestException as e:
-        raise HTTPException(status_code=400, detail=e)
     except CustomException.NotFoundError as e:
         raise HTTPException(status_code=404, detail=e)
 

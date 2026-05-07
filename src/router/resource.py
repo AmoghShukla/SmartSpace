@@ -35,14 +35,24 @@ def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db),
         raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Floor ID's") from e
     
 @router.get('/get_by_resource_by_id/{floor_id}', response_model=list[ResourceResponse])
-def GetallAvailableResourcesByWorkspaceID(workspace_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
+def GetallAvailableResourcesByWorkspaceID(page_no : int, workspace_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Fetching the resource with Floor ID : {workspace_id}")
-        return ResourceService.GetallAvailableResourcesByWorkspaceID(workspace_id, db)
+        return ResourceService.GetallAvailableResourcesByWorkspaceID(page_no, workspace_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching the resource with Floor ID : {workspace_id}")
         raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Workspace ID's") from e
-        
+
+@router.get('/get_by_resource_by_id/{floor_id}', response_model=list[ResourceResponse])
+def GetResourcesbyBookingID(page_no : int, workspace_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
+    try:
+        logger.info(f"Fetching the resource with Floor ID : {workspace_id}")
+        return ResourceService.GetallAvailableResourcesByWorkspaceID(page_no, workspace_id, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching the resource with Floor ID : {workspace_id}")
+        raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Workspace ID's") from e
+
+
 @router.get('/get_all_resources', response_model=list[ResourceResponse])
 def GetallResource(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:

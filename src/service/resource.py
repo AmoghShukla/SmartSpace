@@ -42,9 +42,9 @@ class ResourceService:
             raise CustomException.RepositoryError("Error While Getting Resource") from e
 
     @staticmethod
-    def GetallAvailableResourcesByWorkspaceID(workspace_id,  db):
+    def GetallAvailableResourcesByWorkspaceID(page_no, workspace_id,  db):
         try:
-            return ResourceRepository.GetallAvailableResourcesByWorkspaceID(workspace_id, db)
+            return ResourceRepository.GetallAvailableResourcesByWorkspaceID(page_no, workspace_id, db)
         except CustomException.ServiceError as e:
             raise CustomException.RepositoryError(message = "Error While Getting Resources by workspace id")
     

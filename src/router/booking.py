@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from src.service.booking import BookingService
-from src.schema.booking import BookingCreate, BookingCreateResponse, BookingUpdateResponse
+from src.schema.booking import BookingCreate, BookingCreateResponse, BookingUpdateResponse, MyBookingResponse
 from src.database.Session import get_db
 from src.Exceptions.Custom_Exception import CustomException
 from src.dependencies.auth import get_current_user, required_role
@@ -33,6 +33,7 @@ def GetBookingsByUserID(user_id : UUID, db : Session = Depends(get_db), user = D
         logger.error(f"Error while Fetching Booking with user_id : {user_id}")
         raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
 
+
 @router.get('/get_booking_by_resource_id', response_model=list[BookingCreateResponse])
 def GetBookingsByResourceID(resource_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
@@ -60,11 +61,11 @@ def GetBookingsByFloorID(floor_id : UUID, db : Session = Depends(get_db), user =
         logger.error(f"Error while Fetching Booking with Floor_ID : {floor_id}")
         raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
     
-@router.get('/get_all_bookings', response_model=list[BookingCreateResponse])
+@router.get('/get_all_bookings', response_model=list[MyBookingResponse])
 def GetAllBookings(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching all bookings ")
-        return BookingService.GetAllBookings(db)
+        return BookingService.GetallBookings(db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching all the Booking ")
         raise HTTPException(status_code=400, detail="Error While Fetching all Bookings!!!") from e

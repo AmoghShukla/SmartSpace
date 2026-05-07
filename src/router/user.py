@@ -1,3 +1,5 @@
+from src.schema.booking import BookingCreateResponse, MyBookingResponse
+from src.service.booking import BookingService
 from src.repository.user import UserRepository
 from src.schema.user import MemberCreate, ResourceManagerCreate, UserResponse, UserCreate, UpdateUser
 from src.service.user import UserService
@@ -50,6 +52,16 @@ def GetMyProfile(db: Session = Depends(get_db), current_user = Depends(get_curre
     except CustomException.ServiceError as e:
         logger.error(f"Error while fetching user Profile")
         raise HTTPException("Error While Fetching User Profile!!!") from e
+
+@router.get('/get_my_bookings', response_model=list[MyBookingResponse])
+def GetMyBookings(current_user=Depends(get_current_user), db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
+    try:
+        logger.info(f"Fetching booking for current user with User_ID : {user['user_id']}")
+        return BookingService.Get_my_bookings(user["user_id"], db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error while Fetching booking for current user with User_ID : {user['user_id']}")
+        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+
 
 @router.get('/get_user_by_email/{user_email}', response_model=UserResponse)   
 def GetUserByEmail(user_email : EmailStr, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):

@@ -7,7 +7,7 @@ from src.model.bookingresource import BookingResource_Class
 from src.model.enum import BookingStatus
 from src.core.security import AuthSecurity
 from src.model.booking import Booking_Class 
-from src.schema.booking import BookingCreateResponse, BookingSecondCreate
+from src.schema.booking import BookingCreateResponse
 from src.repository.floor import FloorRepository
 from src.repository.booking import BookingRepository 
 from src.repository.resource import ResourceRepository
@@ -76,6 +76,13 @@ class BookingService:
             raise CustomException.ServiceError("No Booking for this user Exists: Service") from e
         
     @staticmethod
+    def Get_my_bookings(user_id, db):
+        try:
+            return BookingRepository.GetBookingsByUserID(user_id, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError("No Booking for this user Exists: Service") from e
+        
+    @staticmethod
     def GetBookingsByResourceID(resource_id, db):
         try:
             return BookingRepository.GetBookingsByUserID(resource_id, db)
@@ -123,7 +130,7 @@ class BookingService:
             if overlap:
                 BookingRepository.reject_booking(rejector_id=updated_by, booking=booking, db=db)
                 raise CustomException.ServiceError(f"Resource {resource.resource_id} is already Booked")
-            approved_booking = BookingRepository.approve_booking(updated_by, booking, db)
+        approved_booking = BookingRepository.approve_booking(updated_by, booking, db)
         return {
             'message' : "Booking Approved"
         }

@@ -24,31 +24,58 @@ class ResourceRepository:
             raise CustomException.RepositoryError("Error while Creating Resource : Repository") from e
     
     @staticmethod
-    def GetallAvailableResourcesByFloorID(floor_id,  db):
+    def GetallAvailableResourcesByFloorID(page_no, floor_id,  db):
         try:
-            return db.execute(select(Resource_Class).where(Resource_Class.floor_id==floor_id and Resource_Class.is_avaialable == True)).scalars().all()
+            limit = 5
+            offset = (page_no - 1) * 5
+            return db.execute(
+                select(Resource_Class).
+                where(Resource_Class.floor_id==floor_id and Resource_Class.is_avaialable == True)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Resource Exists") from e
     
     @staticmethod
-    def GetallAvailableResourcesByWorkspaceID(workspace_id,  db):
+    def GetallAvailableResourcesByWorkspaceID(page_no : int, workspace_id,  db):
         try:
-            return db.execute(select(Resource_Class).join(Floor_Class).where(Floor_Class.workspace_id==workspace_id and Resource_Class.is_avaialable == True)).scalars().all()
+            limit = 3
+            offset = (page_no - 1) * 3
+
+            statement = (
+                select(Resource_Class)
+                .join(Floor_Class)
+                .where(Floor_Class.workspace_id==workspace_id, Resource_Class.is_deleted == False)
+                .limit(limit)
+                .offset(offset)
+                )
+            return db.execute(statement).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(message = "No Such Resource Exists")
 
     
     @staticmethod
-    def GetallResource(db):
+    def GetallResource(page_no, db):
         try:
-            return db.execute(select(Resource_Class).where(Resource_Class.is_deleted == False)).scalars().all()
+            limit = 5
+            offset = (page_no - 1) * 5
+            return db.execute(
+                select(Resource_Class)
+                .where(Resource_Class.is_deleted == False)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
 
     @staticmethod
     def Capacity_Availability(floor_id, resource_type, db):
         try:
-            floor = db.execute(select(Floor_Class).where(Floor_Class.floor_id == floor_id)).scalars().first()
+            floor = db.execute(
+                select(Floor_Class)
+                .where(Floor_Class.floor_id == floor_id)
+                ).scalars().first()
 
             if not floor:
                 raise SQLAlchemyError("Floor not Found!!")
@@ -72,15 +99,25 @@ class ResourceRepository:
     @staticmethod
     def get_resource_by_id(resource_id, db):
         try:
-            return db.execute(select(Resource_Class).where(Resource_Class.resource_id == resource_id , Resource_Class.is_deleted == False)).scalars().first()
+            return db.execute(
+                select(Resource_Class)
+                .where(Resource_Class.resource_id == resource_id , Resource_Class.is_deleted == False)
+                ).scalars().first()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
         
 
     @staticmethod
-    def get_resource_by_floorID(floor_id, db):
+    def get_resource_by_floorID(page_no, floor_id, db):
         try:
-            return db.execute(select(Resource_Class).where(Resource_Class.floor_id == floor_id , Resource_Class.is_deleted == False)).scalars().all()
+            limit = 3
+            offset = (page_no - 1) * 3
+            return db.execute(
+                select(Resource_Class)
+                .where(Resource_Class.floor_id == floor_id , Resource_Class.is_deleted == False)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
     

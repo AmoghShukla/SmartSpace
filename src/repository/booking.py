@@ -136,6 +136,7 @@ class BookingRepository:
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Error while cancelling the booking ") from e
 
+
     @staticmethod
     def Hard_Delete_Booking(booking, db):
         try:

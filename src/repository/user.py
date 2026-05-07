@@ -74,19 +74,32 @@ class UserRepository:
             raise CustomException.RepositoryError("Error While Fetching user using the Given Email") from e
     
     @staticmethod
-    def GetUserByRole(user_role, db):
+    def GetUserByRole(page_no, user_role, db):
         try:
+            limit = 5
+            offset = (page_no - 1) * 5
             logger.info(f"Fetching User By Role : {user_role}")
-            return db.execute(select(User_Class).where(User_Class.user_role==user_role)).scalars().first()
+            return db.execute(
+                select(User_Class)
+                .where(User_Class.user_role==user_role)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             logger.error(f"Error while Fetching User By Role : {user_role}")
             raise CustomException.RepositoryError("Error While Fetching user using the Given Role") from e
 
     @staticmethod
-    def GetAllUser(db):
+    def GetAllUser(page_no, db):
         try:
+            limit = 5
+            offset = (page_no - 1) * 5
             logger.error(f"Fetching all Users")
-            return db.execute(select(User_Class)).scalars().all()
+            return db.execute(
+                select(User_Class)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             logger.error(f"Error while Fetching all Users")
             raise CustomException.RepositoryError("Error While Fetching All Users") from e

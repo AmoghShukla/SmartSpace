@@ -31,16 +31,16 @@ class UserService:
             raise CustomException.ServiceError("Error While Fetching User!!!") from e
 
     @staticmethod
-    def GetUserByRole(user_role, db: Session):
+    def GetUserByRole(page_no, user_role, db: Session):
         try:
-            return UserRepository.GetUserByRole(user_role, db)
+            return UserRepository.GetUserByRole(page_no, user_role, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Users with the given role!!!") from e
 
     @staticmethod
-    def GetAllUsers(db: Session):
+    def GetAllUsers(page_no, db: Session):
         try:
-            return UserRepository.GetAllUser(db)
+            return UserRepository.GetAllUser(page_no, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Users") from e
 

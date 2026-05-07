@@ -15,6 +15,7 @@ class Resource_Class(base):
     resource_type = Column(SQLAlchemyEnum(ResourceType))
     total_resource_capacity = Column(Integer, nullable=False)
     available_resource_capacity = Column(Integer, nullable=False)
+    price_per_booking = Column(Integer, nullable=False, server_default="500")
     requires_approval = Column(Boolean, default=True)
     open_time = Column(Time, nullable=False, default=time(6, 30), server_default="06:30:00")
     close_time = Column(Time, nullable=False, default=time(22, 30), server_default="22:30:00")

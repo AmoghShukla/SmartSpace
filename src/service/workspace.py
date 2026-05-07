@@ -36,9 +36,9 @@ class WorkspaceService:
             raise CustomException.ServiceError("Error While Fetching Workspace") from e
     
     @staticmethod
-    def GetAllWorkspaces(db):
+    def GetAllWorkspaces(page_no,db):
         try:
-            return WorkspaceRepository.GetallWorkspaces(db)
+            return WorkspaceRepository.GetallWorkspaces(page_no,db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Fetching Workspaces") from e
     

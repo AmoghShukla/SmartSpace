@@ -73,19 +73,19 @@ def GetUserByEmail(user_email : EmailStr, db: Session = Depends(get_db), user = 
         raise HTTPException("Error While Fetching User!!!") from e
 
 @router.get('/get_user_by_role/{user_role}', response_model=UserResponse)  
-def GetUserByRole(user_role, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
+def GetUserByRole(page_no : int, user_role, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching users with role : {user_role}")
-        return UserService.GetUserByRole(user_role.upper(), db)
+        return UserService.GetUserByRole(page_no, user_role.upper(), db)
     except CustomException.ServiceError as e:
         logger.error(f"Error users with role : {user_role}")
         raise HTTPException("Error While Fetching User!!!") from e
 
 @router.get('/', response_model=list[UserResponse])    
-def GetAllUsers(db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
+def GetAllUsers(page_no : int,db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
     try:
         logger.info(f"Fetching All users")
-        return UserService.GetAllUsers(db)
+        return UserService.GetAllUsers(page_no, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching users")
         raise HTTPException(status_code=401, detail=str(e))

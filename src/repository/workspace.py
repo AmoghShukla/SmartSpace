@@ -52,9 +52,16 @@ class WorkspaceRepository:
             raise CustomException.RepositoryError(f"No Such Workspace Exists at this location : {workspace_location}") from e
     
     @staticmethod
-    def GetallWorkspaces(db):
+    def GetallWorkspaces(page_no,db):
         try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.is_deleted == False)).scalars().all()
+            limit = 5
+            offset = (page_no - 1) * limit
+            return db.execute(
+                select(Workspace_Class)
+                .where(Workspace_Class.is_deleted == False)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the workspaces ") from e
 

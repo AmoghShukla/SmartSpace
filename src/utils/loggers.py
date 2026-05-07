@@ -5,7 +5,7 @@ import os
 def get_logger(name : str):
 
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     if not logger.hasHandlers():
         if not os.path.exists('src/logs'):

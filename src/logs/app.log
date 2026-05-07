@@ -1,76 +1,118 @@
- 2026-05-07 15:21:53,599 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:21:57,228 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:22:58,937 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
- 2026-05-07 15:23:06,585 | INFO | src.router.resource | Fetching the resources 
- 2026-05-07 15:25:18,331 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:25:19,406 | INFO | src.router.booking | Creating booking with Payload : start_time=datetime.datetime(2026, 5, 7, 13, 0, 0, 185000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 14, 0, 0, 185000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:25:19,407 | INFO | src.service.booking | Creating Booking with Payload start_time=datetime.datetime(2026, 5, 7, 13, 0, 0, 185000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 14, 0, 0, 185000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:26:22,304 | INFO | src.router.booking | Fetching all bookings  
- 2026-05-07 15:31:00,018 | INFO | src.router.booking | Creating booking with Payload : start_time=datetime.datetime(2026, 5, 7, 13, 0, 0, 185000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 14, 0, 0, 185000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:31:00,019 | INFO | src.service.booking | Creating Booking with Payload start_time=datetime.datetime(2026, 5, 7, 13, 0, 0, 185000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 14, 0, 0, 185000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:37:16,520 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:39:17,798 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:39:32,487 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
- 2026-05-07 15:39:32,550 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
- 2026-05-07 15:40:38,117 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:43:03,014 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
- 2026-05-07 15:44:58,305 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:45:01,788 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:47:16,312 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:47:22,437 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:47:39,655 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:48:41,636 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
- 2026-05-07 15:49:58,653 | INFO | src.router.booking | Creating booking with Payload : start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:49:58,653 | INFO | src.service.booking | Creating Booking with Payload start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:52:18,778 | INFO | src.router.booking | Creating booking with Payload : start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:52:18,779 | INFO | src.service.booking | Creating Booking with Payload start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000, tzinfo=TzInfo(0)) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000, tzinfo=TzInfo(0)) 
- 2026-05-07 15:53:49,016 | INFO | src.router.booking | Creating booking with Payload : start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000) 
- 2026-05-07 15:53:49,017 | INFO | src.service.booking | Creating Booking with Payload start_time=datetime.datetime(2026, 5, 7, 18, 30, 0, 116000) end_time=datetime.datetime(2026, 5, 7, 19, 30, 0, 116000) 
- 2026-05-07 15:56:08,930 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:56:12,105 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:56:15,041 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:56:59,188 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:04,892 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:11,233 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:19,160 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:22,344 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:25,876 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:50,180 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:57:53,108 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:58:12,492 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:58:15,867 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:58:36,265 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:58:46,124 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:09,800 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:13,723 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:17,983 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:23,498 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:52,331 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 15:59:59,245 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:03,068 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:08,421 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:12,838 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:18,497 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:21,215 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:00:47,290 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:01,024 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:04,908 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:07,877 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:14,112 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:25,609 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:37,472 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:43,275 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:47,193 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:52,637 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:55,966 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:01:59,201 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:04,092 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:07,640 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:13,031 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:19,953 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:25,322 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:30,872 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:44,746 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:02:48,047 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:03:23,576 | INFO | main | Admin Already Exists!!! 
- 2026-05-07 16:03:29,275 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:25:51,137 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:25:55,521 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:26:00,711 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:26:03,385 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:29:49,255 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:30:37,441 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:31:06,898 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:00,399 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:07,300 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:20,148 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:43,302 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:51,130 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:32:55,215 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:33:47,323 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:33:50,530 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:52:57,965 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:53:11,734 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-07 16:53:36,854 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 16:55:54,645 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:56:36,665 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-07 16:56:43,495 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-07 16:56:51,691 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 16:57:34,229 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:57:37,473 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:57:50,686 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 16:58:26,337 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:58:30,471 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:58:32,144 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:58:36,421 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 16:58:58,415 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:03,505 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:03,553 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:20,401 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:23,253 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:45,329 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:51,777 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:53,265 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 16:59:59,217 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:00:04,528 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:00:07,062 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:00:11,189 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:00:14,056 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:01:21,929 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:01:37,296 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:01:45,099 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:01:46,453 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:01:54,106 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:02:00,079 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:03:39,685 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:03:41,713 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:03:46,277 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:03:48,747 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:00,553 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:04,430 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:04,467 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:04:04,823 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:12,710 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:26,029 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:04:26,072 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:04:30,655 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:06:10,528 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:06:15,866 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:06:18,213 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:09:18,957 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:09:22,730 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:09:26,470 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:10:42,644 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:10:42,773 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:11:13,721 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:19,777 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:22,773 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:30,305 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:30,333 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:11:54,898 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:58,012 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:11:58,037 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:12:06,939 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:13:37,302 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:13:42,901 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:13:45,744 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:14:28,321 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:14:31,761 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:14:31,789 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:21:30,284 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:11,516 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:15,760 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:20,075 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:24,520 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:28,151 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:37,650 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:40,894 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:22:44,378 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:25:16,938 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:26:52,835 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:26:55,676 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:27:56,798 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:04,127 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:10,256 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:18,200 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:25,065 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:28,485 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:28:31,195 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:29:06,460 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:06,097 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:11,963 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:21,027 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:24,592 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:39,816 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:42,584 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:30:58,030 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-07 17:32:00,849 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-07 17:32:14,833 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:33:12,428 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:33:12,456 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:33:33,871 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:33:33,896 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-07 17:34:10,188 | INFO | main | Admin Already Exists!!! 
+ 2026-05-07 17:34:10,224 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 

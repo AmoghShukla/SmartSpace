@@ -122,6 +122,15 @@ class ResourceRepository:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
     
     @staticmethod
+    def Change_Resource_Costing(resource, db):
+        try:
+            db.commit()
+            db.refresh(resource)
+            return resource
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(e) from e
+
+    @staticmethod
     def UpdateResource(resource, updated_resource, db):
         try:
             update_dict = updated_resource.model_dump(exclude_none = True)

@@ -1,7 +1,7 @@
 from datetime import UTC, time
 from uuid import UUID
 
-from src.schema.resource import ResourceCreateSecond
+from src.schema.resource import ResourceCreateSecond, ResourceResponse
 from src.repository.resource import ResourceRepository
 from src.Exceptions.Custom_Exception import CustomException
 from src.model.enum import ResourceType
@@ -24,6 +24,7 @@ class ResourceService:
                 resource_type=new_payload.resource_type,
                 total_resource_capacity=new_payload.total_resource_capacity,
                 available_resource_capacity=new_payload.available_resource_capacity,
+                price_per_booking = new_payload.price_per_booking,
                 requires_approval=new_payload.requires_approval,
                 open_time=new_payload.open_time,
                 close_time=new_payload.close_time,
@@ -35,7 +36,22 @@ class ResourceService:
             raise CustomException.ServiceError("Error While Creating Resource : Service") from e
   
     @staticmethod
-    def GetallAvailableResourcesByFloorID(floor_id,  db):
+    def Change_Resource_Costing(resource_id, new_price, db):
+        try:
+            resource = ResourceRepository.get_resource_by_id(resource_id, db)
+            if not resource:
+                raise CustomException.ServiceError("Resource not found")
+
+            update_dict = new_price.model_dump()
+
+            for key,value in update_dict.items():
+                setattr(resource,key,value) 
+            return ResourceRepository.Change_Resource_Costing(resource, db)
+        except CustomException.RepositoryError as e:
+            raise CustomException.ServiceError(e) from e
+
+    @staticmethod
+    def GetallAvailableResourcesByFloorID(page_no, floor_id,  db):
         try:
             return ResourceRepository.GetallAvailableResourcesByFloorID(floor_id, db)
         except CustomException.ServiceError as e:
@@ -49,9 +65,9 @@ class ResourceService:
             raise CustomException.RepositoryError(message = "Error While Getting Resources by workspace id")
     
     @staticmethod
-    def GetallResource(db):
+    def GetallResource(page_no, db):
         try:
-            return ResourceRepository.GetallResource(db)
+            return ResourceRepository.GetallResource(page_no, db)
         except CustomException.RepositoryError as e:
             raise CustomException.RepositoryError(f"Eror while fetching all the Resources") from e
         

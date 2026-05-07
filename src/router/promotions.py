@@ -21,7 +21,7 @@ def MakeAdmin(user_email : EmailStr, db: Session = Depends(get_db), user = Depen
         logger.info(f"Promoting user with user_email : {user_email} to Admin")
         return PromotionsService.MakeAdmin(user_email, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Promoting user with user_email : {user_email} to Member")
+        logger.debug(f"Error while Promoting user with user_email : {user_email} to Member")
         raise HTTPException("Error While Promoting user with user_email : {user_email} to Member") from e
 
 @router.post('/make_WorkspaceManager', response_model=UserResponse)
@@ -30,7 +30,7 @@ def MakeWorkspaceManager(user_email : EmailStr, db: Session = Depends(get_db), u
         logger.info(f"Promoting user with user_email : {user_email} to WorkSpaceManager")
         return PromotionsService.MakeWorkSpaceManager(user_email, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Promoting user with user_email : {user_email} to WorkSpaceManager")
+        logger.debug(f"Error while Promoting user with user_email : {user_email} to WorkSpaceManager")
         raise HTTPException(status_code=400, detail=f"Error While Promoting user with user_email : {user_email} to WorkSpaceManager") from e
     
 
@@ -40,7 +40,7 @@ def MakeMember(user_email : EmailStr, db: Session = Depends(get_db), user = Depe
         logger.info(f"Promoting user with user_email : {user_email} to Member")
         return PromotionsService.MakeMember(user_email, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Promoting user with user_email : {user_email} to Member")
+        logger.debug(f"Error while Promoting user with user_email : {user_email} to Member")
         raise HTTPException("Error While Promoting user with user_email : {user_email} to Member") from e
     
 @router.post('/make_user', response_model=UserResponse)
@@ -49,6 +49,6 @@ def MakeUser(user_email : EmailStr, db: Session = Depends(get_db), user = Depend
         logger.info(f"Making user with user_email : {user_email} to User")
         return PromotionsService.MakeUser(user_email, db)
     except CustomException.ServiceError as e:
-        logger.error(f"Error while Making user with user_email : {user_email} to User")
+        logger.debug(f"Error while Making user with user_email : {user_email} to User")
         raise HTTPException(f"Error While Making user with user_email : {user_email} to User") from e
  

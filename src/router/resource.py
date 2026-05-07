@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from src.service.resource import ResourceService
-from src.schema.resource import ResourceCreateRegister, ResourceResponse, UpdateResource
+from src.schema.resource import ResourceCreateRegister, ResourceResponse, SecondResource, UpdateResource
 from src.database.Session import get_db
 from src.Exceptions.Custom_Exception import CustomException
 from src.dependencies.auth import get_current_user, required_role
@@ -26,10 +26,10 @@ def CreateResource(payload : ResourceCreateRegister, db : Session = Depends(get_
         raise HTTPException(status_code=400, detail="Error While Creating Resource!!! : Router") from e
 
 @router.get('/get_by_all_available_resource_by_id/{floor_id}', response_model=list[ResourceResponse])
-def GetallAvailableResourcesByFloorID(floor_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
+def GetallAvailableResourcesByFloorID(page_no : int, floor_id,  db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Fetching the resource with Floor ID : {floor_id}")
-        return ResourceService.GetallAvailableResourcesByFloorID(floor_id, db)
+        return ResourceService.GetallAvailableResourcesByFloorID(page_no, floor_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching the resource with Floor ID : {floor_id}")
         raise HTTPException(status_code=400, detail="Error While Getting all the Resources by Floor ID's") from e
@@ -69,7 +69,15 @@ def GetResourceByID(resource_id : UUID, db : Session = Depends(get_db), user = D
     except CustomException.ServiceError as e:
         logger.error(f"Error while fetching the Resources By id {resource_id}")
         raise HTTPException(status_code=400, detail=f"Error while fetching the Resources By id {resource_id}")
-    
+
+@router.patch('/Update_price/{resource_id}', response_model=ResourceResponse )
+def UpdatePriceByResourceID(resource_id : UUID, new_price : SecondResource, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
+    try:
+        logger.info(f"Updating the price of resource with Resource DI : {resource_id}")
+        return ResourceService.Change_Resource_Costing(resource_id, new_price, db)
+    except CustomException.ServiceError as e:
+        raise HTTPException(status_code=400, detail=e)
+
 @router.patch('/get_resource_by_id/{resource_id}', response_model=ResourceResponse)
 def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:

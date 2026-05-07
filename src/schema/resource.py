@@ -9,6 +9,7 @@ class ResourceCreateRegister(BaseModel):
     resource_type : ResourceType = Field(...)
     total_resource_capacity : int = Field(...)
     requires_approval : bool = Field(...)
+    price_per_booking : int = Field(...)
     open_time : time
     close_time : time
     floor_id : UUID
@@ -16,7 +17,8 @@ class ResourceCreateRegister(BaseModel):
 class UpdateResource(BaseModel):
     resource_type : Optional[ResourceType] = None
     total_resource_capacity : Optional[int] = None 
-    requires_approval : Optional[bool] = None 
+    requires_approval : Optional[bool] = None
+    price_per_booking : int = Field(...) 
     open_time : Optional[time] = None
     close_time : Optional[time] = None
 
@@ -25,6 +27,7 @@ class ResourceCreateSecond(BaseModel):
     resource_type : ResourceType = Field(...)
     total_resource_capacity : int = Field(...)
     requires_approval : bool = Field(...)
+    price_per_booking : int = Field(...)
     open_time : time
     close_time : time
     floor_id : UUID
@@ -33,11 +36,15 @@ class ResourceCreateSecond(BaseModel):
     class Config:
         from_attribute = True
 
+class SecondResource(BaseModel):
+    price_per_booking : int = Field(...)
+
 
 class ResourceResponse(BaseModel):
     resource_id : UUID
     resource_type : ResourceType
     total_resource_capacity : int
+    price_per_booking : int = Field(...)
     open_time : time
     close_time : time
     floor_id : UUID

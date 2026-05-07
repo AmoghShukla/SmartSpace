@@ -44,17 +44,17 @@ def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_
 def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting workspace with id : {workspace_id}")
-        return WorkspaceService.GetWorkspaceByLocation(workspace_id, db)
+        return WorkspaceService.GetWorkspaceByID(workspace_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspace with id : {workspace_id}")
         raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
         
 
 @router.get('/get_all_workspaces', response_model=list[WorkspaceResponse])
-def GetAllWorkSpaces(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
+def GetAllWorkSpaces(page_no : int,db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
     try:
         logger.info(f"Getting all workspaces")
-        return WorkspaceService.GetAllWorkspaces(db)
+        return WorkspaceService.GetAllWorkspaces(page_no,db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspaces")
         raise HTTPException(status_code=400, detail="Error While Getting workspaces!!!") from e

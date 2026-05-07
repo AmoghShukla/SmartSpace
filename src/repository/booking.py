@@ -3,6 +3,7 @@ from datetime import UTC, datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 
+from src.model.resource import Resource_Class
 from src.model.bookingresource import BookingResource_Class
 from src.model.enum import BookingStatus
 from src.model.booking import Booking_Class
@@ -82,7 +83,20 @@ class BookingRepository:
     @staticmethod
     def check_booking_overlap(resource_id, requested_start, requested_end, db):
         try:
-            return db.execute(select(Booking_Class).join(BookingResource_Class).where(BookingResource_Class.resource_id==resource_id, Booking_Class.booking_status=="APPROVED", Booking_Class.start_time < requested_end, Booking_Class.end_time > requested_start)).scalars().first()
+            statement = (
+                BookingResource_Class.resource_id==resource_id, 
+                Booking_Class.booking_status=="APPROVED", 
+                Booking_Class.start_time < requested_end, 
+                Booking_Class.end_time > requested_start, 
+                Resource_Class.open_time > requested_start, 
+                Resource_Class.close_time < requested_start, 
+                Resource_Class.close_time < requested_end
+            )
+            return db.execute(
+                select(Booking_Class)
+                .join(BookingResource_Class)
+                .join(Resource_Class)
+                .where(statement)).scalars().first()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError('Error : Repo')
         

@@ -144,6 +144,22 @@ class BookingRepository:
                 ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
+        
+    @staticmethod
+    def get_booking_by_status(page_no, status, db):
+        try:
+            logger.info(f"Fetching Bookings by Status")
+            limit = 5
+            offset = (page_no - 1) * limit
+            return db.execute(
+                select(Booking_Class)
+                .where(Booking_Class.booking_status == status)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
+        except SQLAlchemyError as e:
+            logger.error("Error while Fetching Booking by Status")
+            raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
     
     @staticmethod
     def UpdateBooking(booking, updated_booking, db):

@@ -6,15 +6,20 @@ from src.model.enum import UserRole
 from src.model import User_Class
 from src.core.security import AuthSecurity
 from src.repository.user import UserRepository
+from src.utils.loggers import get_logger
+
+logger = get_logger(__name__)
 
 class AuthService:
 
     @staticmethod
     def RegisterUser(payload, db):
         try:
+            logger.info("Registering User")
             user = UserRepository.GetCurrentUserByEmail(payload.user_email, db)
 
             if user:
+                logger.debug("User Already Exists!!!")
                 raise CustomException.ServiceError("User Already Exists!!")
             
             if not hasattr(payload, "user_role"):
@@ -42,9 +47,11 @@ class AuthService:
             user = UserRepository.GetUserByEmail(payload.username, db)
 
             if not user:
+                logger.error("User Does Not Exist, please Signup First!!!")
                 raise HTTPException(status_code=404, detail="User does not exist, please signup")
             
             if not AuthSecurity.verify_password(payload.password, user.user_password):
+                logger.error("Password Does not Match!!")
                 raise HTTPException(status_code=404, detail="Password Does Not Match!!!")
             
             role = payload.user_role.value if hasattr(user.user_role, 'value') else str(user.user_role)
@@ -68,4 +75,5 @@ class AuthService:
                 'token_type' : 'Bearer'
             }
         except CustomException.RepositoryError as e:
+            logger.error("Error While Logging User in")
             raise CustomException.ServiceError from e

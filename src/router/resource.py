@@ -75,7 +75,8 @@ def UpdatePriceByResourceID(resource_id : UUID, new_price : SecondResource, db :
         logger.info(f"Updating the price of resource with Resource DI : {resource_id}")
         return ResourceService.Change_Resource_Costing(resource_id, new_price, db)
     except CustomException.ServiceError as e:
-        raise HTTPException(status_code=400, detail=e)
+        logger.error(f"Error While Updating Price of Resource with Resource Id  : {resource_id}")
+        raise HTTPException(status_code=400, detail=f"Error While Updating Price of Resource with Resource Id  : {resource_id}")
 
 @router.patch('/get_resource_by_id/{resource_id}', response_model=ResourceResponse)
 def UpdateResource(resource_id : UUID, payload : UpdateResource, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):

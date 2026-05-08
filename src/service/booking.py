@@ -85,6 +85,15 @@ class BookingService:
         except CustomException.RepositoryError as e:
             logger.error(f'Error While Fetching Booking for Date : {date}')
             raise CustomException.ServiceError(" { 'message' : 'Error While Fetching Booking's By Date' }")
+        
+    @staticmethod
+    def GetBookingByStatus(page_no, status, db):
+        try:
+            logger.info(f'Fetching Booking with Status : {status}')
+            return BookingRepository.get_booking_by_status(page_no, status, db)
+        except CustomException.RepositoryError as e:
+            logger.error(f'Error While Fetching Booking with Status : {status}')
+            raise CustomException.ServiceError(" { 'message' : 'Error While Fetching Booking's' }")
 
     @staticmethod
     def GetBookingsByUserID(user_id, db):

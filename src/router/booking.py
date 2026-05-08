@@ -78,10 +78,10 @@ def approve_booking(booking_id : UUID, current_user = Depends(get_current_user),
         return BookingService.approve_booking(booking_id, current_user["user_id"], db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while approving the booking with booking id {booking_id}")
-        raise HTTPException(status_code=405, detail=e)
+        raise HTTPException(status_code=405, detail=f"Error while approving the booking with booking id {booking_id}")
     except CustomException.NotFoundError as e:
-        logger.error("Error while approving the booking with booking id {booking_id}")
-        raise HTTPException(status_code=404, detail=e)
+        logger.error(f"Error while approving the booking with booking id {booking_id}")
+        raise HTTPException(status_code=404, detail=f"Error while approving the booking with booking id {booking_id}")
 
 @router.get('/Get_Booking_By_Date', response_model=list[MyBookingResponse])
 def GetBookingsByDate(page_no : int, date : datetime, db : Session = Depends(get_db)):
@@ -91,7 +91,17 @@ def GetBookingsByDate(page_no : int, date : datetime, db : Session = Depends(get
         return BookingService.GetBookingByDate(page_no, date, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error While Fetching for date : {date.date()}")
-        raise HTTPException(status_code=400, detail=e)
+        raise HTTPException(status_code=400, detail=f"Error While Fetching for date : {date.date()}")
+    
+@router.get('/Get_Booking_By_Date', response_model=list[MyBookingResponse])
+def GetBookingsByStatus(page_no : int, status : str, db : Session = Depends(get_db)):
+    '''Please Enter Status here'''
+    try:
+        logger.info(f'Fetching Bookings with Status : {status}')
+        return BookingService.GetBookingByDate(page_no, status, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error While Fetching Booking With Status : {status}")
+        raise HTTPException(status_code=400, detail=f"Error While Fetching Booking With Status : {status}")
 
 
 @router.patch('/update_Booking', response_model=BookingCreateResponse)

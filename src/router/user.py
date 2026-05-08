@@ -23,7 +23,7 @@ def CreateUser(payload : UserCreate, db : Session = Depends(get_db)):
         return UserService.CreateUser(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating User with Payload : {payload}")
-        raise HTTPException("Error While Creating User!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Creating User!!!") from e
     
 @router.post('/create_member', response_model=UserResponse)
 def CreateMember(payload : MemberCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
@@ -32,7 +32,7 @@ def CreateMember(payload : MemberCreate, db : Session = Depends(get_db), user = 
         UserService.CreateUser(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating member with Payload : {payload}")
-        raise HTTPException("Error While Creating member!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Creating member!!!") from e
     
 @router.post('/create_resource_manager', response_model=UserResponse)
 def CreateResourceManager(payload : ResourceManagerCreate, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
@@ -41,7 +41,7 @@ def CreateResourceManager(payload : ResourceManagerCreate, db : Session = Depend
         UserService.CreateUser(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating resource manager with Payload : {payload}")
-        raise HTTPException("Error While Creating resource manager!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Creating resource manager!!!") from e
     
     
 @router.get('/get_my_profile', response_model=UserResponse)   
@@ -51,7 +51,7 @@ def GetMyProfile(db: Session = Depends(get_db), current_user = Depends(get_curre
         return UserService.GetMyProfile(current_user['user_id'],db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while fetching user Profile")
-        raise HTTPException("Error While Fetching User Profile!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Fetching User Profile!!!") from e
 
 @router.get('/get_my_bookings', response_model=list[MyBookingResponse])
 def GetMyBookings(current_user=Depends(get_current_user), db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -70,7 +70,7 @@ def GetUserByEmail(user_email : EmailStr, db: Session = Depends(get_db), user = 
         return UserService.GetUserByEmail(user_email, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error While Fetching user with email : {user_email}")
-        raise HTTPException("Error While Fetching User!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Fetching User!!!") from e
 
 @router.get('/get_user_by_role/{user_role}', response_model=UserResponse)  
 def GetUserByRole(page_no : int, user_role, db: Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
@@ -79,7 +79,7 @@ def GetUserByRole(page_no : int, user_role, db: Session = Depends(get_db), user 
         return UserService.GetUserByRole(page_no, user_role.upper(), db)
     except CustomException.ServiceError as e:
         logger.error(f"Error users with role : {user_role}")
-        raise HTTPException("Error While Fetching User!!!") from e
+        raise HTTPException(status_code=400, detail="Error While Fetching User!!!") from e
 
 @router.get('/', response_model=list[UserResponse])    
 def GetAllUsers(page_no : int,db: Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -88,7 +88,7 @@ def GetAllUsers(page_no : int,db: Session = Depends(get_db), user = Depends(requ
         return UserService.GetAllUsers(page_no, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching users")
-        raise HTTPException(status_code=401, detail=str(e))
+        raise HTTPException(status_code=401, detail="Error while Fetching users")
     
 @router.patch('/update_user', response_model=UpdateUser)
 def UpdateSelfProfile(payload : UpdateUser, current_user = Depends(get_current_user), db : Session = Depends(get_db)):

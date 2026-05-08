@@ -30,7 +30,7 @@ def get_current_user(token: str =  Depends(oauth2_scheme)):
         }
     
     except SQLAlchemyError as e:
-        raise HTTPException("Error While Getting Current User") from e
+        raise HTTPException(status_code=400 ,detail="Error While Getting Current User") from e
 
 
 

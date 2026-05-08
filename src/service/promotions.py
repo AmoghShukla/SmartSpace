@@ -59,6 +59,7 @@ class PromotionsService:
 
             if not user:
                 raise CustomException.ServiceError("User Does Not Exists")
+            
 
             if not user.user_role == "USER":
                 user.user_role = "USER"

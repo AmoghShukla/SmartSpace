@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.exc import SQLAlchemyError
 
+import re
 from src.core.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
@@ -44,3 +45,10 @@ def required_role(roles: list):
         return user
 
     return role_checker
+
+
+def normalize_search(text : str) -> str:
+    text = text.lower().strip()
+
+    text = re.sub(r"\s+", " ", text)
+    return text

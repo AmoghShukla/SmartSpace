@@ -7,7 +7,6 @@ from uuid import uuid4
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, UUID
 from src.model.enum import UserRole
 
-
 class Workspace_Class(base):
     __tablename__="Workspace_Table"
 

@@ -1,10 +1,13 @@
+from sqlalchemy.orm import Session
+
+from src.dependencies.auth import normalize_search
 from src.repository.workspace import WorkspaceRepository
 from src.Exceptions.Custom_Exception import CustomException
 
 class WorkspaceService:
 
     @staticmethod
-    def CreateWorkspace(payload, db):
+    def CreateWorkspace(payload, db : Session):
         try:
             exists = WorkspaceRepository.GetWorkspaceByName(payload.workspace_name, db)
             if exists:

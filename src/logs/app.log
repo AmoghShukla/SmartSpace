@@ -116,3 +116,98 @@
  2026-05-07 17:33:33,896 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
  2026-05-07 17:34:10,188 | INFO | main | Admin Already Exists!!! 
  2026-05-07 17:34:10,224 | INFO | src.router.resource | Updating the price of resource with Resource DI : 6a56e937-849d-41c6-bc92-915f224bdfff 
+ 2026-05-08 10:12:03,100 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:14:10,714 | INFO | src.repository.user | Fetching User with email : hamza@example.com 
+ 2026-05-08 10:15:33,514 | INFO | src.router.workspace | Getting workspace with location : VimanNagar 
+ 2026-05-08 10:22:18,473 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:22,886 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:27,130 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:30,795 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:34,098 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:37,541 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:40,578 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:45,248 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:49,386 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:22:52,744 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:23:25,876 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:23:39,885 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:23:43,128 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:04,234 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:09,117 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:13,746 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:16,574 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:44,380 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:55,716 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:24:59,641 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:25:02,829 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:25:17,877 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:25:23,991 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:25:31,550 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:26:08,913 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:26:12,421 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:26:19,095 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:26:25,657 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:27:19,708 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:27:23,082 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:27:25,931 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:28:26,374 | INFO | src.router.workspace | Getting all workspaces 
+ 2026-05-08 10:28:51,046 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-08 10:28:55,023 | INFO | src.router.workspace | Getting all workspaces 
+ 2026-05-08 10:29:02,327 | INFO | src.router.workspace | Deleting Workspace with id : 43e4dd4f-1803-41bb-9150-04edc4f9d0bc 
+ 2026-05-08 10:29:25,472 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:29:33,129 | INFO | src.router.workspace | Deleting Workspace with id : 43e4dd4f-1803-41bb-9150-04edc4f9d0bc 
+ 2026-05-08 10:29:33,148 | ERROR | src.router.workspace | Error while Deleting Workspace with id : 43e4dd4f-1803-41bb-9150-04edc4f9d0bc 
+ 2026-05-08 10:30:00,904 | INFO | src.router.workspace | Getting all workspaces 
+ 2026-05-08 10:30:08,091 | INFO | src.router.workspace | Deleting Workspace with id : fedc1857-af1d-437f-a1df-65277eaa146b 
+ 2026-05-08 10:31:52,758 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Gaia' workspace_location='pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') 
+ 2026-05-08 10:33:32,218 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:33:37,000 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Gaia' workspace_location='pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') 
+ 2026-05-08 10:36:06,067 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:36:18,657 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:37:34,274 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:37:37,212 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:37:44,948 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:37:48,285 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:38:23,292 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:38:33,955 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:38:45,853 | INFO | src.repository.user | Fetching User with email : amoghshukla1616@gmail.com 
+ 2026-05-08 10:39:12,209 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Nyati' workspace_location='Pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') workspace_floor_capcity=12 
+ 2026-05-08 10:39:51,883 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:39:54,923 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Nyati' workspace_location='Pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') workspace_floor_capacity=12 
+ 2026-05-08 10:40:12,400 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:40:16,339 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:40:16,365 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Nyati' workspace_location='Pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') workspace_floor_capacity=12 
+ 2026-05-08 10:40:16,371 | ERROR | src.router.workspace | Error while Creating workspace with Payload : workspace_name='Nyati' workspace_location='Pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') workspace_floor_capacity=12 
+ 2026-05-08 10:41:47,138 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:41:54,031 | INFO | src.router.workspace | Creating workspace with Payload : workspace_name='Gaia' workspace_location='Pune' workspace_manager_id=UUID('e7c96680-805a-48cd-a24b-58bab5fc8cfe') workspace_floor_capacity=8 
+ 2026-05-08 10:43:51,402 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:43:55,349 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:44:13,389 | INFO | src.router.workspace | Getting workspace with Name : Gaia 
+ 2026-05-08 10:44:37,799 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:44:37,828 | INFO | src.router.workspace | Getting workspace with Name : Gaia 
+ 2026-05-08 10:44:51,986 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:46:07,678 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:46:17,726 | INFO | src.router.workspace | Getting workspace with Name : Gaia 
+ 2026-05-08 10:46:28,288 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:46:50,122 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:47:15,087 | INFO | src.router.workspace | Getting workspace with Name : Nyati 
+ 2026-05-08 10:47:22,430 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:47:27,821 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:47:30,985 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:47:53,621 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:47:59,958 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:06,254 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:14,076 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:22,962 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:27,057 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:29,683 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:45,645 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:49,143 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:52,159 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:48:54,936 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:49:03,196 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:49:21,597 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:49:24,265 | INFO | main | Admin Already Exists!!! 
+ 2026-05-08 10:49:24,285 | INFO | src.router.workspace | Getting workspace with location : pune 
+ 2026-05-08 10:49:35,920 | INFO | src.router.workspace | Getting workspace with id : 28b4b4ce-438f-4503-80da-f7b6e14de579 
+ 2026-05-08 10:55:35,067 | INFO | main | Admin Already Exists!!! 

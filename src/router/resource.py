@@ -8,7 +8,6 @@ from src.dependencies.auth import get_current_user, required_role
 from src.utils.loggers import get_logger
 
 from sqlalchemy.orm import Session
-from pydantic import EmailStr
 
 from fastapi import APIRouter, HTTPException, Depends
 

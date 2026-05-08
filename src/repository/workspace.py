@@ -3,6 +3,7 @@ from datetime import UTC, datetime
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 
+from src.dependencies.auth import normalize_search
 from src.model.floor import Floor_Class
 from src.model.enum import UserRole
 from src.model.workspace import Workspace_Class
@@ -15,39 +16,47 @@ logger = get_logger(__name__)
 class WorkspaceRepository:
 
     @staticmethod
-    def CreateWorkspace(payload, current_floor , db):
+    def CreateWorkspace(payload, db):
         try:
-            new_floor = Floor_Class(
-                floor_number = current_floor,
-                workspace_id = payload.workspace_id,
-                floor_meeting_room_capacity = payload.floor_meeting_room_capacity,
-                floor_auditorium_capacity = payload.floor_auditorium_capacity
+            new_workspace = Workspace_Class(
+                workspace_name = payload.workspace_name,
+                workspace_location = normalize_search(payload.workspace_location),
+                workspace_manager_id = payload.workspace_manager_id,
+                workspace_floor_capacity = payload.workspace_floor_capacity
             )
-            db.add(new_floor)
+            db.add(new_workspace)
             db.commit()
-            db.refresh(new_floor)
-            return new_floor
+            db.refresh(new_workspace)
+            return new_workspace
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("Error while Creating Floor : Repository") from e
 
     @staticmethod
     def GetWorkspaceByName(workspace_name, db):
         try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_name==workspace_name and Workspace_Class.is_deleted == False)).scalars().first()
+            return db.execute(
+                select(Workspace_Class)
+                .where(Workspace_Class.workspace_name==workspace_name, Workspace_Class.is_deleted == False)
+                ).scalars().first()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Workspace Exists") from e
     
     @staticmethod
     def GetWorkspaceByID(workspace_id, db):
         try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_id==workspace_id and Workspace_Class.is_deleted == False)).scalars().first()
+            return db.execute(
+                select(Workspace_Class)
+                .where(Workspace_Class.workspace_id==workspace_id, Workspace_Class.is_deleted == False)
+                ).scalars().first()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError("No Such Workspace Exists") from e
     
     @staticmethod
     def GetWorkspaceByLocation(workspace_location, db):
         try:
-            return db.execute(select(Workspace_Class).where(Workspace_Class.workspace_location==workspace_location and Workspace_Class.is_deleted == False)).scalars().first()
+            return db.execute(
+                select(Workspace_Class)
+                .where(Workspace_Class.workspace_location==workspace_location, Workspace_Class.is_deleted == False)).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(f"No Such Workspace Exists at this location : {workspace_location}") from e
     

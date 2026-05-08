@@ -22,4 +22,5 @@ class User_Class(base):
 
     workspace = Relationship('Workspace_Class', back_populates='user')
     booking = Relationship('Booking_Class', back_populates='user')
+    payment = Relationship("Payment_Class", back_populates='user')
 

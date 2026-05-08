@@ -15,3 +15,8 @@ class BookingStatus(str, Enum):
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
     CANCELLED = "CANCELLED"
+
+class PaymentStatus(str, Enum):
+    COMPLETED = "COMPLETED"
+    PENDING = "PENDING"
+    

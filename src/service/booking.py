@@ -3,8 +3,10 @@ from uuid import UUID
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from src.repository.payment import PaymentRepository
+from src.model.payment import Payment_Class
 from src.model.bookingresource import BookingResource_Class
-from src.model.enum import BookingStatus
+from src.model.enum import BookingStatus, PaymentStatus
 from src.core.security import AuthSecurity
 from src.model.booking import Booking_Class 
 from src.schema.booking import BookingCreateResponse
@@ -32,9 +34,10 @@ class BookingService:
                 end_time=Payload.end_time
             )
             BookingRepository.PreBooking(new_booking, db)
-
+            total_cost = 0
             for current_resource_id in resource_ids:
                 resource = ResourceRepository.get_resource_by_id(current_resource_id, db)
+                total_cost += resource.price_per_hour
                 floor = FloorRepository.GetFloorByFloorID(resource.floor_id, db)
                 workspace_id = floor.workspace_id
                 
@@ -47,6 +50,12 @@ class BookingService:
                 BookingRepository.CreateBooking(booking_resource, db)
 
             booking = BookingRepository.GetBookingsByBookingID(new_booking.booking_id, db)
+            new_payment = Payment_Class(
+                booking_id = new_booking.booking_id,
+                user_id = new_booking.user_id,
+                payment_amount =  total_cost              
+            ) 
+            payment = PaymentRepository.Create_Payment(new_payment, db)
             response = BookingCreateResponse(
                 user_id = new_booking.user_id,
                 booking_id = new_booking.booking_id,
@@ -113,15 +122,20 @@ class BookingService:
     @staticmethod
     def approve_booking(booking_id : UUID, updated_by : UUID, db : Session):
         booking = BookingRepository.GetBookingsByBookingID(booking_id, db)
+        payment = PaymentRepository.GetPaymentByBookingID(booking_id, db)
 
         if not booking:
             logger.debug("Booking not found")
             raise CustomException.NotFoundError(message = "Booking not found")
         
         if booking.booking_status != BookingStatus.PENDING:
-            raise CustomException.ServiceError("Booking Already Updated")
+            raise CustomException.ServiceError("{ 'message' : Booking Already Updated}")
+        
+        if payment.payment_status != PaymentStatus.COMPLETED:
+            raise CustomException.ServiceError(" { 'message : 'Payment is not completed yet, Please Pay First' }")
         
         booking_resources = BookingRepository.get_booking_resource(booking_id, db)
+        
         if not booking_resources:
             raise CustomException.ServiceError("No Resources Attched to the Following Booking")
         

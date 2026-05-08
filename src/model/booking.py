@@ -19,4 +19,5 @@ class Booking_Class(base):
 
     resource = Relationship("BookingResource_Class", back_populates="booking")
     user = Relationship("User_Class", back_populates="booking")
+    payment = Relationship("Payment_Class", back_populates='booking')
     

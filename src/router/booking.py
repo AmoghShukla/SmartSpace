@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from src.service.booking import BookingService
@@ -81,6 +82,17 @@ def approve_booking(booking_id : UUID, current_user = Depends(get_current_user),
     except CustomException.NotFoundError as e:
         logger.error("Error while approving the booking with booking id {booking_id}")
         raise HTTPException(status_code=404, detail=e)
+
+@router.get('/Get_Booking_By_Date', response_model=list[MyBookingResponse])
+def GetBookingsByDate(page_no : int, date : datetime, db : Session = Depends(get_db)):
+    '''Please Enter Date in (YYYY-MM-DD) format'''
+    try:
+        logger.info(f'Fetching Bookings for Date : {date.date()}')
+        return BookingService.GetBookingByDate(page_no, date, db)
+    except CustomException.ServiceError as e:
+        logger.error(f"Error While Fetching for date : {date.date()}")
+        raise HTTPException(status_code=400, detail=e)
+
 
 @router.patch('/update_Booking', response_model=BookingCreateResponse)
 def UpdateBooking(booking_id : UUID, payload : BookingUpdateResponse, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'MEMBER']))):

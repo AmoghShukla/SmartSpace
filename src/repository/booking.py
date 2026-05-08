@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from src.model.resource import Resource_Class
 from src.model.bookingresource import BookingResource_Class
@@ -100,6 +100,7 @@ class BookingRepository:
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError('Error : Repo')
         
+        
     @staticmethod
     def approve_booking(approver_id, booking, db):
         booking.booking_status = BookingStatus.APPROVED
@@ -123,9 +124,27 @@ class BookingRepository:
     @staticmethod
     def get_booking_resource(booking_id, db):
         try:
-            return db.execute(select(BookingResource_Class).where(BookingResource_Class.booking_id==booking_id)).scalars().all()
+            return db.execute(
+                select(BookingResource_Class)
+                .where(BookingResource_Class.booking_id==booking_id)
+                ).scalars().all()
         except SQLAlchemyError as e:
             raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
+        
+    @staticmethod
+    def get_booking_by_date(page_no, date, db):
+        try:
+            limit = 5
+            offset = (page_no - 1) * limit
+            return db.execute(
+                select(Booking_Class)
+                .where(func.date(Booking_Class.start_time) == date)
+                .limit(limit)
+                .offset(offset)
+                ).scalars().all()
+        except SQLAlchemyError as e:
+            raise CustomException.RepositoryError(message = "Error while Fetching the Resources of a booking")
+    
     @staticmethod
     def UpdateBooking(booking, updated_booking, db):
         try:

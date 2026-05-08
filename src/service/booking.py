@@ -78,6 +78,15 @@ class BookingService:
             raise CustomException.ServiceError("No Such Booking Exists : Service") from e
     
     @staticmethod
+    def GetBookingByDate(page_no, date, db):
+        try:
+            logger.info(f'Fetching Booking for Date : {date}')
+            return BookingRepository.get_booking_by_date(page_no, date, db)
+        except CustomException.RepositoryError as e:
+            logger.error(f'Error While Fetching Booking for Date : {date}')
+            raise CustomException.ServiceError(" { 'message' : 'Error While Fetching Booking's By Date' }")
+
+    @staticmethod
     def GetBookingsByUserID(user_id, db):
         try:
             return BookingRepository.GetBookingsByUserID(user_id, db)

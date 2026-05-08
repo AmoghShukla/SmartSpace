@@ -12,6 +12,8 @@ class PromotionsService:
 
             if user.user_role == "USER":
                 user.user_role = "MEMBER"
+            else:
+                raise CustomException.ServiceError(f"{user_email} is Already a Member")
             
             return PromotionsRepository.promote(user, db)
         except CustomException.RepositoryError as e:

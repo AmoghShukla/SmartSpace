@@ -20,7 +20,7 @@ def CreateWorkspace(payload : WorkspaceCreate, db : Session = Depends(get_db), u
         return WorkspaceService.CreateWorkspace(payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Creating workspace with Payload : {payload}")
-        raise HTTPException(status_code=400, detail="Error While Creating workspace!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get('/get_workspace_by_name', response_model=WorkspaceResponse)
 def GetWorkspaceByName(workspace_name : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
@@ -30,7 +30,7 @@ def GetWorkspaceByName(workspace_name : str, db : Session = Depends(get_db), use
         return WorkspaceService.GetWorkspaceByName(workspace_name, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspace with Name : {workspace_name}")
-        raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.get('/get_workspace_by_location', response_model=list[WorkspaceResponse])
 def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
@@ -40,7 +40,7 @@ def GetWorkspaceByLocation(workspace_location : str, db : Session = Depends(get_
         return WorkspaceService.GetWorkspaceByLocation(workspace_location, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspace with Name : {workspace_location}")
-        raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get('/get_workspace_by_id', response_model=WorkspaceResponse)
 def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'USER', 'MEMBER']))):
@@ -49,7 +49,7 @@ def GetWorkspaceByID(workspace_id : str, db : Session = Depends(get_db), user = 
         return WorkspaceService.GetWorkspaceByID(workspace_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspace with id : {workspace_id}")
-        raise HTTPException(status_code=400, detail="Error While Getting workspace!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
         
 
 @router.get('/get_all_workspaces', response_model=list[WorkspaceResponse])
@@ -59,7 +59,7 @@ def GetAllWorkSpaces(page_no : int,db : Session = Depends(get_db), user = Depend
         return WorkspaceService.GetAllWorkspaces(page_no,db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Fetching workspaces")
-        raise HTTPException(status_code=400, detail="Error While Getting workspaces!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.delete('/Soft_Delete', response_model=WorkspaceResponse)
 def Delete(workspace_id : str, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
@@ -77,4 +77,4 @@ def Hard_Delete(workspace_id : str, db : Session = Depends(get_db), user = Depen
         return WorkspaceService.HardDeleteWorkspace(workspace_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Deleting Workspace with id : {workspace_id}")
-        raise HTTPException(status_code=400, detail=f"Error While Deleting Workspace with id : {workspace_id}!!!") from e
+        raise HTTPException(status_code=400, detail=f"Error While Hard Deleting Workspace with id : {workspace_id}!!!") from e

@@ -23,7 +23,7 @@ def CreateBooking(resource_ids : list[UUID],payload : BookingCreate, db : Sessio
         return BookingService.CreateBooking(current_user, resource_ids, payload, db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Booking with Payload : {payload}")
-        raise HTTPException(status_code=400, detail="Error While Booking!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get('/get_booking_by_user_id', response_model=list[BookingCreateResponse])
 def GetBookingsByUserID(user_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -32,7 +32,7 @@ def GetBookingsByUserID(user_id : UUID, db : Session = Depends(get_db), user = D
         return BookingService.GetBookingsByUserID(user_id, db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Fetching Booking with user_id : {user_id}")
-        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.get('/get_booking_by_resource_id', response_model=list[BookingCreateResponse])
@@ -42,7 +42,7 @@ def GetBookingsByResourceID(resource_id : UUID, db : Session = Depends(get_db), 
         return BookingService.GetBookingsByResourceID(resource_id, db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Fetching Booking with resource_id : {resource_id}")
-        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+        raise HTTPException(status_code=400,detail=str(e))
     
 @router.get('/get_booking_by_workspace_id', response_model=list[BookingCreateResponse])
 def GetBookingsByWorkspaceID(workspace_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -51,7 +51,7 @@ def GetBookingsByWorkspaceID(workspace_id : UUID, db : Session = Depends(get_db)
         return BookingService.GetBookingsByWorkspaceID(workspace_id, db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Fetching Booking with workspace_id : {workspace_id}")
-        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+        raise HTTPException(status_code=400,detail=str(e))
     
 @router.get('/get_booking_by_floor_id', response_model=list[BookingCreateResponse])
 def GetBookingsByFloorID(floor_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -60,7 +60,7 @@ def GetBookingsByFloorID(floor_id : UUID, db : Session = Depends(get_db), user =
         return BookingService.GetBookingsByFloorID(floor_id, db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Fetching Booking with Floor_ID : {floor_id}")
-        raise HTTPException(status_code=400, detail="Error While Fetching Booking!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.get('/get_all_bookings', response_model=list[MyBookingResponse])
 def GetAllBookings(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
@@ -69,7 +69,7 @@ def GetAllBookings(db : Session = Depends(get_db), user = Depends(required_role(
         return BookingService.GetallBookings(db)
     except CustomException.ServiceError as e:
         logger.debug(f"Error while Fetching all the Booking ")
-        raise HTTPException(status_code=400, detail="Error While Fetching all Bookings!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post('/approve_booking/{booking_id}')
 def approve_booking(booking_id : UUID, current_user = Depends(get_current_user), db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -78,10 +78,10 @@ def approve_booking(booking_id : UUID, current_user = Depends(get_current_user),
         return BookingService.approve_booking(booking_id, current_user["user_id"], db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while approving the booking with booking id {booking_id}")
-        raise HTTPException(status_code=405, detail=f"Error while approving the booking with booking id {booking_id}")
+        raise HTTPException(status_code=405, detail=str(e))
     except CustomException.NotFoundError as e:
         logger.error(f"Error while approving the booking with booking id {booking_id}")
-        raise HTTPException(status_code=404, detail=f"Error while approving the booking with booking id {booking_id}")
+        raise HTTPException(status_code=404, detail=str(e))
 
 @router.get('/Get_Booking_By_Date', response_model=list[MyBookingResponse])
 def GetBookingsByDate(page_no : int, date : datetime, db : Session = Depends(get_db)):
@@ -91,7 +91,7 @@ def GetBookingsByDate(page_no : int, date : datetime, db : Session = Depends(get
         return BookingService.GetBookingByDate(page_no, date, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error While Fetching for date : {date.date()}")
-        raise HTTPException(status_code=400, detail=f"Error While Fetching for date : {date.date()}")
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.get('/Get_Booking_By_Date', response_model=list[MyBookingResponse])
 def GetBookingsByStatus(page_no : int, status : str, db : Session = Depends(get_db)):
@@ -101,7 +101,7 @@ def GetBookingsByStatus(page_no : int, status : str, db : Session = Depends(get_
         return BookingService.GetBookingByDate(page_no, status, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error While Fetching Booking With Status : {status}")
-        raise HTTPException(status_code=400, detail=f"Error While Fetching Booking With Status : {status}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.patch('/update_Booking', response_model=BookingCreateResponse)
@@ -111,7 +111,7 @@ def UpdateBooking(booking_id : UUID, payload : BookingUpdateResponse, db : Sessi
         return BookingService.UpdateBooking(booking_id, payload, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Updating Booking with Booking_ID : {booking_id}")
-        raise HTTPException(status_code=400, detail="Error While Updating Booking!!!") from e
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.delete('/Cancel_Booking')
 def CancelBooking(booking_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER', 'MEMBER']))):
@@ -120,7 +120,7 @@ def CancelBooking(booking_id : UUID, db : Session = Depends(get_db), user = Depe
         return BookingService.Cancel_Booking(booking_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Cancelling the Booking By id {booking_id}")
-        raise HTTPException(status_code=400, detail=f"Error while Cancelling the Booking By id {booking_id}")
+        raise HTTPException(status_code=400, detail=str(e))
     
 @router.delete('/Delete_Booking')
 def Hard_Delete_Booking(booking_id : UUID, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'RESOURCE_MANAGER']))):
@@ -129,4 +129,4 @@ def Hard_Delete_Booking(booking_id : UUID, db : Session = Depends(get_db), user 
         return BookingService.Hard_Delete_Booking(booking_id, db)
     except CustomException.ServiceError as e:
         logger.error(f"Error while Deleting the Booking By id {booking_id}")
-        raise HTTPException(status_code=400, detail=f"Error while CancellinDeletingg the Booking By id {booking_id}")
+        raise HTTPException(status_code=400, detail=str(e))

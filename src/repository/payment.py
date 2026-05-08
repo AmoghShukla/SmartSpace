@@ -47,3 +47,4 @@ class PaymentRepository:
         except SQLAlchemyError as e:
             logger.error(f"Error while Intiating Payment forng Id : {booking_id}")
             raise CustomException.RepositoryError("{'message : Error While Fetching Payment by Booking ID'}")
+        

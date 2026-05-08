@@ -17,12 +17,12 @@ def register_user(payload : UserCreate, db : Session = Depends(get_db)):
     try:
         return AuthService.RegisterUser(payload, db)
     except CustomException.ServiceError as e:
-        raise HTTPException(status_code=401, detail="Error While Registering User") from e
+        raise HTTPException(status_code=401,detail=str(e))
     
 @router.post('/login', response_model=LoginResponse)
 def login_user(payload: OAuth2PasswordRequestForm =  Depends(), db : Session = Depends(get_db)):
     try:
         return AuthService.login_user(payload, db)
     except CustomException.ServiceError as e:
-        raise HTTPException(status_code=400, detail="Error While Logging in User") from e
+        raise HTTPException(status_code=400, detail=str(e))
     

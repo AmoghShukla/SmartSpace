@@ -30,4 +30,4 @@ def Complete_Payment(booking_id, db : Session = Depends(get_db), current_user = 
            
     except CustomException.ServiceError as e:
         logger.error("Encountered Error while Completing Payment")
-        raise HTTPException(status_code=400, detail="Encountered Error while Completing Payment") from e
+        raise HTTPException(status_code=400, detail=str(e))

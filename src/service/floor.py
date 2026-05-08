@@ -2,18 +2,27 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
+from src.model.floor import Floor_Class
 from src.repository.workspace import WorkspaceRepository
 from src.repository.floor import FloorRepository
 from src.Exceptions.Custom_Exception import CustomException
-from src.schema.resource import ResourceCreateRegister
+from src.schema.floor import FloorCreate
 
 class FloorService:
 
     @staticmethod
-    def CreateFloor(payload : ResourceCreateRegister, db):
+    def CreateFloor(payload : FloorCreate, db):
         try:
             current_floor = FloorRepository.current_floor(payload.workspace_id, db) + 1        
-            return FloorRepository.CreateFloor(payload, current_floor, db)
+            new_floor = Floor_Class(
+                workspace_id  = payload.workspace_id,
+                total_floor_auditorium_capacity = payload.floor_auditorium_capacity,
+                avaialable_floor_auditorium_capacity = payload.floor_auditorium_capacity,
+                floor_number = current_floor,
+                total_floor_meeting_room_capacity = payload.floor_meeting_room_capacity,                                 
+                available_floor_meeting_room_capacity = payload.floor_meeting_room_capacity                                 
+            )
+            return FloorRepository.CreateFloor(new_floor, db)
         except CustomException.RepositoryError as e:
             raise CustomException.ServiceError("Error While Creating Workspace") from e
     

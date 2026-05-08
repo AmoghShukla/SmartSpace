@@ -37,7 +37,7 @@ class BookingService:
             total_cost = 0
             for current_resource_id in resource_ids:
                 resource = ResourceRepository.get_resource_by_id(current_resource_id, db)
-                total_cost += resource.price_per_hour
+                total_cost += resource.price_per_booking
                 floor = FloorRepository.GetFloorByFloorID(resource.floor_id, db)
                 workspace_id = floor.workspace_id
                 

@@ -7,4 +7,4 @@ from src.router.resource import router as ResourceRouter
 from src.router.booking import router as BookingRouter
 from src.router.payment import router as PaymentRouter
 
-all_router = [PaymentRouter, AuthRouter, PromotionsRouter, UserRouter, WorkspaceRouter, FloorRouter, ResourceRouter, BookingRouter]
+all_router = [AuthRouter, PromotionsRouter, UserRouter, WorkspaceRouter, FloorRouter, ResourceRouter, BookingRouter, PaymentRouter]

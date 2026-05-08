@@ -53,10 +53,10 @@ def GetResourcesbyBookingID(page_no : int, workspace_id,  db : Session = Depends
 
 
 @router.get('/get_all_resources', response_model=list[ResourceResponse])
-def GetallResource(db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
+def GetallResource(page_no : int, db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
     try:
         logger.info(f"Fetching the resources")
-        return ResourceService.GetallResource(db)
+        return ResourceService.GetallResource(page_no, db)
     except CustomException.ServiceError as e:
         raise HTTPException(status_code=400, detail=f"Eror while fetching all the Resources") from e
 

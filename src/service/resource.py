@@ -53,7 +53,7 @@ class ResourceService:
     @staticmethod
     def GetallAvailableResourcesByFloorID(page_no, floor_id,  db):
         try:
-            return ResourceRepository.GetallAvailableResourcesByFloorID(floor_id, db)
+            return ResourceRepository.GetallAvailableResourcesByFloorID(page_no, floor_id, db)
         except CustomException.ServiceError as e:
             raise CustomException.RepositoryError("Error While Getting Resource") from e
 

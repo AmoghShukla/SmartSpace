@@ -35,7 +35,7 @@ def GetFloorsByFloorID(floor_id : UUID, db : Session = Depends(get_db), user = D
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get('/get_all_by_workspace_id/{workspace_id}', response_model=list[FloorResponse])
-def GetAllFloorsWithWorkspaceID(workspace_id : UUID,db : Session = Depends(get_db), user = Depends(required_role(['ADMIN']))):
+def GetAllFloorsWithWorkspaceID(workspace_id : UUID,db : Session = Depends(get_db), user = Depends(required_role(['ADMIN', 'USER']))):
     try:
         logger.info(f"Fetching all floors with workspace id : {workspace_id}")
         return FloorService.GetAllFloorsByWorkspaceID(workspace_id, db)

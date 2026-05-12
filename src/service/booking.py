@@ -149,11 +149,11 @@ class BookingService:
         if booking.booking_status != BookingStatus.PENDING:
             raise CustomException.ServiceError("{ 'message' : Booking Already Updated}")
         
-        if payment.payment_status != PaymentStatus.COMPLETED:
-            raise CustomException.ServiceError(" { 'message : 'Payment is not completed yet, Please Pay First' }")
-        
         booking_resources = BookingRepository.get_booking_resource(booking_id, db)
         
+        if payment.payment_status != PaymentStatus.COMPLETED:
+            raise CustomException.ServiceError(" { 'message : 'Payment is not completed yet, Please Pay First' }")
+
         if not booking_resources:
             raise CustomException.ServiceError("No Resources Attched to the Following Booking")
         

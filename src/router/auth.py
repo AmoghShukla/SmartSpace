@@ -5,12 +5,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from src.schema.auth import LoginRequest, LoginResponse
+from src.utils.loggers import get_logger
 from src.database.Session import get_db
 from src.schema.user import UserResponse, UserCreate
 from src.service.auth import AuthService
 from src.Exceptions.Custom_Exception import CustomException
 
 router = APIRouter(prefix='/auth', tags=['Auth'])
+logger = get_logger(__name__)
 
 @router.post('/register', response_model=UserResponse)
 def register_user(payload : UserCreate, db : Session = Depends(get_db)):
@@ -22,6 +24,7 @@ def register_user(payload : UserCreate, db : Session = Depends(get_db)):
 @router.post('/login', response_model=LoginResponse)
 def login_user(payload: OAuth2PasswordRequestForm =  Depends(), db : Session = Depends(get_db)):
     try:
+        logger.info(f"Login Started for : {payload.username}")
         return AuthService.login_user(payload, db)
     except CustomException.ServiceError as e:
         raise HTTPException(status_code=400, detail=str(e))

@@ -5,11 +5,13 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.exc import SQLAlchemyError
 
+from src.utils.loggers import get_logger
+
 import re
 from src.core.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login')
-
+logger = get_logger(__name__)
 
 def get_current_user(token: str =  Depends(oauth2_scheme)):
     try:
@@ -23,7 +25,8 @@ def get_current_user(token: str =  Depends(oauth2_scheme)):
 
         if not user_id or not user_role:
             raise jwt.exceptions.InvalidTokenError("Invalid Token!!!")
-
+        
+        logger.info("Fetched Current User!!")
         return {
             'user_id': user_id,
             'user_role': user_role
